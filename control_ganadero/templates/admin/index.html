@@ -1,0 +1,9 @@
+<!-- templates/admin/index.html -->
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}
+    <h2>Registro de Nuevo Usuario</h2>
+    <p><a href="{% url 'register' %}">Haz clic aquí para registrarte</a></p>
+{% endblock %}
+
