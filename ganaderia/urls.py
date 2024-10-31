@@ -1,12 +1,22 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.views import LogoutView
-from .views import CustomLoginView, dashboard, registro_usuario
-from .views import agregar_produccion_leche
+from django.contrib import admin
+from ganaderia import views
+from . import views
+
+
 
 urlpatterns = [
-    path('login/', CustomLoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('dashboard/', dashboard, name='dashboard'),
-    path('registro/', registro_usuario, name='registro'),
-    path('agregar-produccion-leche/', agregar_produccion_leche, name='agregar_produccion_leche'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('register/', views.register_view, name='register'),
+    path('', views.home, name='home'),
+    path('finca/nueva/', views.finca_create, name='finca_create'),
+    path('vaca/nueva/', views.vaca_create, name='vaca_create'),
+    path('ternero/nueva/', views.ternero_create, name='ternero_create'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]
+
+
+
+

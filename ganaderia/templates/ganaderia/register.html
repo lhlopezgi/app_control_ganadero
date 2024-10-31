@@ -1,0 +1,13 @@
+<!-- templates/ganaderia/register.html -->
+<h2>Registro de Usuario</h2>
+{% if messages %}
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Registrarse</button>
+</form>
+<p><a href="{% url 'login' %}">Iniciar sesión</a></p>

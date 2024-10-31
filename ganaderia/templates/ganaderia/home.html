@@ -1,0 +1,18 @@
+
+<h2>Bienvenido al Control Ganadero</h2>
+
+{% if user.is_authenticated %}
+    <p>Hola, {{ user.username }}!</p>
+    
+    {% if can_add_finca %}
+        <p><a href="{% url 'finca_create' %}">Registrar Finca</a></p>
+    {% endif %}
+    
+    {% if can_add_vaca %}
+        <p><a href="{% url 'vaca_create' %}">Registrar Vaca</a></p>
+    {% endif %}
+    
+    {% if can_add_ternero %}
+        <p><a href="{% url 'ternero_create' %}">Registrar Ternero</a></p>
+    {% endif %}
+{% endif %}

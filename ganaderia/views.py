@@ -2,218 +2,136 @@
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from .models import Finca, Vaca, ProduccionLeche, Peso, Ternero, PesoTernero
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
-from .forms import LoginForm, ProduccionLecheForm  
+from .forms import LoginForm, ProduccionLecheForm, FincaForm, VacaForm, TerneroForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.db.models import Sum, Count
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
+from .forms import FincaForm, VacaForm, TerneroForm
+from django.contrib.auth.decorators import login_required, permission_required
 
-def crear_grupos():
-   
-    admin, created = Group.objects.get_or_create(name="Admin")
-    lectura, created = Group.objects.get_or_create(name="Lectura")
 
-  
-    content_types = ContentType.objects.get_for_models(Finca, Vaca, ProduccionLeche, Peso, Ternero, PesoTernero)
-    permisos = Permission.objects.filter(content_type__in=content_types.values())
 
-    admin.permissions.set(permisos)
-    lectura.permissions.set(permisos.filter(codename__startswith="view_"))
 
-def registro_usuario(request):
+# Vista de inicio de sesión
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f"Bienvenido, {user.username}")
+                return redirect('home')
+            else:
+                messages.error(request, "Nombre de usuario o contraseña incorrectos.")
+        else:
+            messages.error(request, "Nombre de usuario o contraseña incorrectos.")
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'ganaderia/login.html', {'form': form})
+
+# Vista de registro de usuarios
+def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  
-            messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
-            return redirect('login')  
+            user = form.save()
+            login(request, user)
+            messages.success(request, f"Bienvenido, {user.username}. Tu cuenta ha sido creada.")
+            return redirect('home')
         else:
-           
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field.capitalize()}: {error}")
+            messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = UserCreationForm()
-    return render(request, 'ganaderia/registro.html', {'form': form})
-
-class CustomLoginView(LoginView):
-    template_name = 'ganaderia/login.html'
-    authentication_form = LoginForm
-    redirect_authenticated_user = True
-
-class FincaListView(ListView):
-    model = Finca
-    template_name = 'ganaderia/finca_list.html'
-    context_object_name = 'fincas'
-
-class FincaCreateView(CreateView):
-    model = Finca
-    template_name = 'ganaderia/finca_form.html'
-    fields = '__all__'  
-    success_url = reverse_lazy('finca_list')
-
-class FincaUpdateView(UpdateView):
-    model = Finca
-    template_name = 'ganaderia/finca_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('finca_list')
-
-class FincaDeleteView(DeleteView):
-    model = Finca
-    template_name = 'ganaderia/finca_confirm_delete.html'
-    success_url = reverse_lazy('finca_list')
-
-class VacaListView(ListView):
-    model = Vaca
-    template_name = 'ganaderia/vaca_list.html'
-    context_object_name = 'vacas'
-
-class VacaCreateView(CreateView):
-    model = Vaca
-    template_name = 'ganaderia/vaca_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('vaca_list')
-
-class VacaUpdateView(UpdateView):
-    model = Vaca
-    template_name = 'ganaderia/vaca_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('vaca_list')
-
-class VacaDeleteView(DeleteView):
-    model = Vaca
-    template_name = 'ganaderia/vaca_confirm_delete.html'
-    success_url = reverse_lazy('vaca_list')
-
-class ProduccionLecheListView(ListView):
-    model = ProduccionLeche
-    template_name = 'ganaderia/produccion_leche_list.html'
-    context_object_name = 'producciones'
-
-class ProduccionLecheCreateView(CreateView):
-    model = ProduccionLeche
-    template_name = 'ganaderia/produccion_leche_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('produccion_leche_list')
-
-class ProduccionLecheUpdateView(UpdateView):
-    model = ProduccionLeche
-    template_name = 'ganaderia/produccion_leche_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('produccion_leche_list')
-
-class ProduccionLecheDeleteView(DeleteView):
-    model = ProduccionLeche
-    template_name = 'ganaderia/produccion_leche_confirm_delete.html'
-    success_url = reverse_lazy('produccion_leche_list')
-
-class PesoListView(ListView):
-    model = Peso
-    template_name = 'ganaderia/peso_list.html'
-    context_object_name = 'pesos'
-
-class PesoCreateView(CreateView):
-    model = Peso
-    template_name = 'ganaderia/peso_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('peso_list')
-
-class PesoUpdateView(UpdateView):
-    model = Peso
-    template_name = 'ganaderia/peso_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('peso_list')
-
-class PesoDeleteView(DeleteView):
-    model = Peso
-    template_name = 'ganaderia/peso_confirm_delete.html'
-    success_url = reverse_lazy('peso_list')
-
-class TerneroListView(ListView):
-    model = Ternero
-    template_name = 'ganaderia/ternero_list.html'
-    context_object_name = 'terneros'
-
-class TerneroCreateView(CreateView):
-    model = Ternero
-    template_name = 'ganaderia/ternero_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('ternero_list')
-
-class TerneroUpdateView(UpdateView):
-    model = Ternero
-    template_name = 'ganaderia/ternero_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('ternero_list')
-
-class TerneroDeleteView(DeleteView):
-    model = Ternero
-    template_name = 'ganaderia/ternero_confirm_delete.html'
-    success_url = reverse_lazy('ternero_list')
-
-class PesoTerneroListView(ListView):
-    model = PesoTernero
-    template_name = 'ganaderia/peso_ternero_list.html'
-    context_object_name = 'pesos'
-
-class PesoTerneroCreateView(CreateView):
-    model = PesoTernero
-    template_name = 'ganaderia/peso_ternero_form.html'
-    fields = '__all__'
-    success_url = reverse_lazy('peso_ternero_list')
-
-def dashboard(request):
     
-    total_vacas = Vaca.objects.count()
+    return render(request, 'ganaderia/register.html', {'form': form})
 
-    
-    fecha_hace_30_dias = timezone.now() - timezone.timedelta(days=30)
-    leche_ultimos_30_dias = ProduccionLeche.objects.filter(fecha__gte=fecha_hace_30_dias).aggregate(Sum('cantidad_leche'))['cantidad_leche__sum'] or 0
+# Vista de cierre de sesión
+@login_required
+def logout_view(request):
+    logout(request)
+    messages.info(request, "Has cerrado sesión.")
+    return redirect('login')
 
-   
-    fecha_hoy = timezone.now().date()
-    leche_hoy = ProduccionLeche.objects.filter(fecha=fecha_hoy).aggregate(Sum('cantidad_leche'))['cantidad_leche__sum'] or 0
+# ganaderia/views.py
 
-   
-    total_terneros = Ternero.objects.values('sexo').annotate(cantidad=Count('id'))
 
-    cantidad_machos = next((item['cantidad'] for item in total_terneros if item['sexo'] == 'Macho'), 0)
-    cantidad_hembras = next((item['cantidad'] for item in total_terneros if item['sexo'] == 'Hembra'), 0)
-
+@login_required
+def home(request):
     context = {
-        'total_vacas': total_vacas,
-        'leche_ultimos_30_dias': leche_ultimos_30_dias,
-        'leche_hoy': leche_hoy,
-        'cantidad_machos': cantidad_machos,
-        'cantidad_hembras': cantidad_hembras,
+        'can_add_finca': request.user.has_perm('ganaderia.add_finca'),
+        'can_add_vaca': request.user.has_perm('ganaderia.add_vaca'),
+        'can_add_ternero': request.user.has_perm('ganaderia.add_ternero'),
     }
-    
-    return render(request, 'ganaderia/dashboard.html', context)
+    return render(request, 'ganaderia/home.html', context)
 
-def agregar_produccion_leche(request):
+
+# Vista para registrar una nueva finca
+@login_required
+@permission_required('ganaderia.add_finca', raise_exception=True)
+def finca_create(request):
     if request.method == 'POST':
-        form = ProduccionLecheForm(request.POST)
+        form = FincaForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Información diaria registrada exitosamente.')
-            return redirect('dashboard')  
+            messages.success(request, "Finca registrada correctamente.")
+            return redirect('home')
         else:
-            
-            messages.error(request, 'Error al registrar la producción de leche. Corrige los errores.')
+            messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
-        form = ProduccionLecheForm()
+        form = FincaForm()
     
-    return render(request, 'ganaderia/agregar_produccion_leche.html', {'form': form})
+    return render(request, 'ganaderia/finca_form.html', {'form': form})
 
 
 
 
+@login_required
+@permission_required('ganaderia.add_vaca', raise_exception=True)
+def vaca_create(request):
+    if request.method == 'POST':
+        form = VacaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Vaca registrada correctamente.")
+            return redirect('home')
+        else:
+            messages.error(request, "Por favor corrige los errores en el formulario.")
+    else:
+        form = VacaForm()
+    
+    return render(request, 'ganaderia/vaca_form.html', {'form': form})
+
+# Vista para registrar un nuevo ternero
+@login_required
+@permission_required('ganaderia.add_ternero', raise_exception=True)
+def ternero_create(request):
+    if request.method == 'POST':
+        form = TerneroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Ternero registrado correctamente.")
+            return redirect('home')
+        else:
+            messages.error(request, "Por favor corrige los errores en el formulario.")
+    else:
+        form = TerneroForm()
+    
+    return render(request, 'ganaderia/ternero_form.html', {'form': form})
 
 
+
+@login_required
+def dashboard(request):
+    return render(request, 'ganaderia/dashboard.html')
 
 
