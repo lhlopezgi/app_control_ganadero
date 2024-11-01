@@ -39,7 +39,9 @@ class PesoVacaForm(forms.ModelForm):
     class Meta:
         model = PesoVaca
         fields = ['vaca', 'fecha', 'peso', 'observaciones']
-
+        widgets = {
+            'fecha': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 class PesoTerneroForm(forms.ModelForm):
@@ -49,4 +51,10 @@ class PesoTerneroForm(forms.ModelForm):
         widgets = {
             'fecha_peso': forms.DateInput(attrs={'type': 'date'}),  # Facilita la entrada de fecha
         }
+
+
+
+
+
+
 

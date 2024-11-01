@@ -1,70 +1,41 @@
 {% extends 'ganaderia/base.html' %}
 
-
 {% block title %}Dashboard - Mi Aplicación Ganadera{% endblock %}
 
 {% block content %}
 <div class="row">
-   <div class="sidebar">
+    <div class="sidebar">
         <h2 class="sidebar-title">Menú</h2>
         <ul class="sidebar-menu">
-            <li><a href="#" onclick="showDashboard()">Dashboard</a></li>
-            <li><a href="#" onclick="showRegisterMenu()">Registro</a>
+            <li><a href="#" onclick="showDashboard(event)">Dashboard</a></li>
+            <li>
+                <a href="#" onclick="toggleRegisterMenu(event)">Registro</a>
                 <ul class="submenu" id="register-menu" style="display:none;">
-                    <li><a href="#" onclick="showForm('finca-form')">Registrar Nueva Finca</a></li>
-                    <li><a href="#" onclick="showForm('vaca-form')">Registrar Nueva Vaca</a></li>
-                    <li><a href="#" onclick="showForm('ternero-form')">Registrar Nuevo Ternero</a></li>
-                    <li><a href="#" onclick="showForm('produccion-leche-form')">Registrar Producción de Leche</a></li>
-                    <li><a href="#" onclick="showForm('peso-vaca-form')">Registrar Peso de Vaca</a></li>
-                    <li><a href="#" onclick="showForm('peso-ternero-formt')">Registrar Peso de Ternero</a></li>
+                    <li><a href="#" onclick="showForm('finca_create')">Registrar Nueva Finca</a></li>
+                    <li><a href="#" onclick="showForm('vaca_create')">Registrar Nueva Vaca</a></li>
+                    <li><a href="#" onclick="showForm('ternero_create')">Registrar Nuevo Ternero</a></li>
+                    <li><a href="#" onclick="showForm('produccion_leche_create')">Registrar Producción de Leche</a></li>
+                    <li><a href="#" onclick="showForm('peso_vaca_create')">Registrar Peso de Vaca</a></li>
+                    <li><a href="#" onclick="showForm('peso_ternero_create')">Registrar Peso de Ternero</a></li>
                 </ul>
             </li>
         </ul>
     </div>
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  
+              
     <div class="col-md-9">
         <!-- Contenido del Dashboard -->
         <div id="dashboard-content" class="tabcontent" style="display:block;">
             <h2>Información General</h2>
-            <p>Cantidad de animales en producción: </p>
-            <p>Cantidad de leche producida durante los últimos 30 días: </p>
-            <p>Cantidad de leche producida hoy:</p>
-            <p>Cantidad de terneros machos en crecimiento: </p>
-            <p>Cantidad de terneros hembras en crecimiento: </p>
+            <p>Animales en producción: {{ animales_en_produccion }}</p>
+            <p>Leche producida en los últimos 30 días: {{ leche_ultimos_30_dias }}</p>
+            <p>Leche producida hoy: {{ leche_hoy }}</p>
+            <p>Terneros machos: {{ terneros_machos }}</p>
+            <p>Terneros hembras: {{ terneros_hembras }}</p>
         </div>
 
+
         <!-- Formulario de Registrar Nueva Finca -->
-        <div id="finca-form" class="form-content" style="display:none;">
+        <div class="form-content" id="finca_create" style="display:none;">
             <h2>Registrar Nueva Finca</h2>
             <form>
                 <div class="form-group">
@@ -95,138 +66,161 @@
             </form>
         </div>
 
-       <!-- Formulario de Registrar Nueva Vaca -->
-<div id="vaca-form" class="form-content" style="display:none;">
-    <h2>Registrar Nueva Vaca</h2>
-    <form>
-        <div class="form-group">
-            <label for="idVaca">ID:</label>
-            <input type="text" class="form-control" id="idVaca" placeholder="ID de la Vaca" required>
+        <!-- Formulario de Registrar Nueva Vaca -->
+     
+        <div class="form-content" id="vaca_create" style="display:none;">
+            <h2>Registrar Nueva Vaca</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idVaca">ID:</label>
+                    <input type="text" class="form-control" id="idVaca" placeholder="ID de la Vaca" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaNacimientoVaca">Fecha de Nacimiento:</label>
+                    <input type="date" class="form-control" id="fechaNacimientoVaca" required>
+                </div>
+                <div class="form-group">
+                    <label for="razaVaca">Raza:</label>
+                    <input type="text" class="form-control" id="razaVaca" placeholder="Raza" required>
+                </div>
+                <div class="form-group">
+                    <label for="colorVaca">Color:</label>
+                    <input type="text" class="form-control" id="colorVaca" placeholder="Color" required>
+                </div>
+                <div class="form-group">
+                    <label for="observacionesVaca">Observaciones Generales:</label>
+                    <textarea class="form-control" id="observacionesVaca" placeholder="Observaciones" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="fechaNacimientoVaca">Fecha de Nacimiento:</label>
-            <input type="date" class="form-control" id="fechaNacimientoVaca" required>
-        </div>
-        <div class="form-group">
-            <label for="razaVaca">Raza:</label>
-            <input type="text" class="form-control" id="razaVaca" placeholder="Raza" required>
-        </div>
-        <div class="form-group">
-            <label for="colorVaca">Color:</label>
-            <input type="text" class="form-control" id="colorVaca" placeholder="Color" required>
-        </div>
-        <div class="form-group">
-            <label for="observacionesVaca">Observaciones Generales:</label>
-            <textarea class="form-control" id="observacionesVaca" placeholder="Observaciones" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
-</div>
-
 
         <!-- Formulario de Registrar Nuevo Ternero -->
-<div id="ternero-form" class="form-content" style="display:none;">
-    <h2>Registrar Nuevo Ternero</h2>
-    <form>
-        <div class="form-group">
-            <label for="idTernero">ID:</label>
-            <input type="text" class="form-control" id="idTernero" placeholder="ID del Ternero" required>
+        <div id="ternero_create" class="form-content" style="display:none;">
+            <h2>Registrar Nuevo Ternero</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idTernero">ID:</label>
+                    <input type="text" class="form-control" id="idTernero" placeholder="ID del Ternero" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaNacimientoTernero">Fecha de Nacimiento:</label>
+                    <input type="date" class="form-control" id="fechaNacimientoTernero" required>
+                </div>
+                <div class="form-group">
+                    <label for="razaTernero">Raza:</label>
+                    <input type="text" class="form-control" id="razaTernero" placeholder="Raza" required>
+                </div>
+                <div class="form-group">
+                    <label for="colorTernero">Color:</label>
+                    <input type="text" class="form-control" id="colorTernero" placeholder="Color" required>
+                </div>
+                <div class="form-group">
+                    <label for="sexoTernero">Sexo:</label>
+                    <select class="form-control" id="sexoTernero" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="observacionesTernero">Observaciones Generales:</label>
+                    <textarea class="form-control" id="observacionesTernero" placeholder="Observaciones" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="fechaNacimientoTernero">Fecha de Nacimiento:</label>
-            <input type="date" class="form-control" id="fechaNacimientoTernero" required>
-        </div>
-        <div class="form-group">
-            <label for="razaTernero">Raza:</label>
-            <input type="text" class="form-control" id="razaTernero" placeholder="Raza" required>
-        </div>
-        <div class="form-group">
-            <label for="colorTernero">Color:</label>
-            <input type="text" class="form-control" id="colorTernero" placeholder="Color" required>
-        </div>
-        <div class="form-group">
-            <label for="sexoTernero">Sexo:</label>
-            <select class="form-control" id="sexoTernero" required>
-                <option value="">Seleccione...</option>
-                <option value="Macho">Macho</option>
-                <option value="Hembra">Hembra</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="observacionesTernero">Observaciones Generales:</label>
-            <textarea class="form-control" id="observacionesTernero" placeholder="Observaciones" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
-</div>
 
-
-       <!-- Formulario de Registrar Producción de Leche -->
-<div id="produccion-leche-form" class="form-content" style="display:none;">
-    <h2>Registrar Producción de Leche</h2>
-    <form>
-        <div class="form-group">
-            <label for="idVacaProduccion">ID de la Vaca:</label>
-            <input type="text" class="form-control" id="idVacaProduccion" placeholder="ID de la Vaca" required>
+        <!-- Formulario de Registrar Producción de Leche -->
+        <div id="produccion_leche_create" class="form-content" style="display:none;">
+            <h2>Registrar Producción de Leche</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idVacaProduccion">ID de la Vaca:</label>
+                    <input type="text" class="form-control" id="idVacaProduccion" placeholder="ID de la Vaca" required>
+                </div>
+                <div class="form-group">
+                    <label for="cantidadLecheDia">Cantidad de Leche (litros):</label>
+                    <input type="number" class="form-control" id="cantidadLecheDia" placeholder="Cantidad de Leche por Día" required>
+                </div>
+                <div class="form-group">
+                    <label for="observacionDiaria">Observación Diaria:</label>
+                    <textarea class="form-control" id="observacionDiaria" placeholder="Observación Diaria" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="cantidadLecheDia">Cantidad de Leche (litros):</label>
-            <input type="number" class="form-control" id="cantidadLecheDia" placeholder="Cantidad de Leche por Día" required>
-        </div>
-        <div class="form-group">
-            <label for="observacionDiaria">Observación Diaria:</label>
-            <textarea class="form-control" id="observacionDiaria" placeholder="Observación Diaria" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
-</div>
-
 
         <!-- Formulario de Registrar Peso de Vaca -->
-<div id="peso-vaca-form" class="form-content" style="display:none;">
-    <h2>Registrar Peso de Vaca</h2>
-    <form>
-        <div class="form-group">
-            <label for="idVacaPeso">ID de la Vaca:</label>
-            <input type="text" class="form-control" id="idVacaPeso" placeholder="ID de la Vaca" required>
+        <div id="peso_vaca_create" class="form-content" style="display:none;">
+            <h2>Registrar Peso de Vaca</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idVacaPeso">ID de la Vaca:</label>
+                    <input type="text" class="form-control" id="idVacaPeso" placeholder="ID de la Vaca" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaPesoVaca">Fecha Peso:</label>
+                    <input type="date" class="form-control" id="fechaPesoVaca" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesoVaca">Peso (kg):</label>
+                    <input type="number" class="form-control" id="pesoVaca" placeholder="Peso (kg)" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="fechaPesoVaca">Fecha Peso:</label>
-            <input type="date" class="form-control" id="fechaPesoVaca" required>
+
+        <!-- Formulario de Registrar Peso de Ternero -->
+        <div id="peso_ternero_create" class="form-content" style="display:none;">
+            <h2>Registrar Peso de Ternero</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idTerneroPeso">ID del Ternero:</label>
+                    <input type="text" class="form-control" id="idTerneroPeso" placeholder="ID del Ternero" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaPesoTernero">Fecha Peso:</label>
+                    <input type="date" class="form-control" id="fechaPesoTernero" required>
+                </div>
+                <div class="form-group">
+                    <label for="pesoTernero">Peso (kg):</label>
+                    <input type="number" class="form-control" id="pesoTernero" placeholder="Peso (kg)" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="pesoVaca">Peso (kg):</label>
-            <input type="number" class="form-control" id="pesoVaca" placeholder="Peso (kg)" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
+    </div>
 </div>
 
+<script>
+function showDashboard(event) {
+    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    hideAllForms(); // Ocultar todos los formularios
+    document.getElementById("dashboard-content").style.display = "block"; // Mostrar el contenido del dashboard
+}
 
-         <!-- Formulario de Registrar Peso de Ternero -->
-<div id="peso-ternero-form" class="form-content" style="display:none;">
-    <h2>Registrar Peso de Ternero</h2>
-    <form>
-        <div class="form-group">
-            <label for="idTerneroPeso">ID del Ternero:</label>
-            <input type="text" class="form-control" id="idTerneroPeso" placeholder="ID del Ternero" required>
-        </div>
-        <div class="form-group">
-            <label for="fechaPesoTernero">Fecha Peso:</label>
-            <input type="date" class="form-control" id="fechaPesoTernero" required>
-        </div>
-        <div class="form-group">
-            <label for="pesoTernero">Peso (kg):</label>
-            <input type="number" class="form-control" id="pesoTernero" placeholder="Peso (kg)" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
-</div>
+function toggleRegisterMenu(event) {
+    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    var registerMenu = document.getElementById("register-menu");
+    registerMenu.style.display = registerMenu.style.display === "none" ? "block" : "none"; // Mostrar/ocultar el menú de registro
+}
 
+function showForm(formId) {
+    hideAllForms(); // Ocultar todos los formularios
+    document.getElementById(formId).style.display = "block"; // Mostrar el formulario seleccionado
+}
+
+function hideAllForms() {
+    var forms = document.getElementsByClassName("form-content");
+    for (var i = 0; i < forms.length; i++) {
+        forms[i].style.display = "none"; // Ocultar todos los formularios
+    }
+    document.getElementById("dashboard-content").style.display = "none"; // Ocultar el contenido del dashboard
+}
+</script>
 {% endblock %}
 
 
-
-
-
     
+

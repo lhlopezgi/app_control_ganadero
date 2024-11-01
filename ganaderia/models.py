@@ -5,10 +5,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Finca(models.Model):
     nombre = models.CharField(max_length=100)
     hectareas = models.DecimalField(max_digits=6, decimal_places=2)
-    ciudad = ciudad = models.CharField(max_length=100, default="Desconocido")
+    ciudad = models.CharField(max_length=100, default="Desconocido")
     asnm = models.IntegerField(default=0)
     temperatura = models.DecimalField(max_digits=4, decimal_places=1)
-    capacidad = capacidad = models.IntegerField(default=0)
+    capacidad = models.IntegerField(default=0)
     def __str__(self):
         return self.nombre
     
@@ -22,8 +22,6 @@ class Vaca(models.Model):
     def __str__(self):
         return f"{self.raza} ({self.id})"
     
-
-
 class Ternero(models.Model):
     fecha_nacimiento = models.DateField()
     raza = models.CharField(max_length=50)
@@ -32,8 +30,6 @@ class Ternero(models.Model):
     observaciones = models.TextField(blank=True, null=True)
     def __str__(self):
         return f"{self.raza} ({self.id})"
-
-
 
 class ProduccionLeche(models.Model):
     vaca = models.ForeignKey(Vaca, on_delete=models.CASCADE, related_name="producciones_leche")
@@ -44,9 +40,7 @@ class ProduccionLeche(models.Model):
     def __str__(self):
         return f"Leche {self.fecha} - Vaca {self.vaca.id}"
 
-
-
-    
+ 
 class PesoTernero(models.Model):
     ternero = models.ForeignKey(Ternero, on_delete=models.CASCADE)
     fecha = models.DateField()
@@ -65,7 +59,6 @@ class PesoVaca(models.Model):
 
     def __str__(self):
         return f"{self.vaca} - {self.peso} kg en {self.fecha}"
-
 
 
 class Animal(models.Model):

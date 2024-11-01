@@ -20,10 +20,6 @@ urlpatterns = [
     path('pesoternero/nueva/', views.peso_ternero_create, name='peso_ternero_create'),
     path('leche/', views.leche_view, name='leche'),
    
-   
-   
-
-    
 ]
 
 

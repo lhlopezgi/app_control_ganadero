@@ -7,16 +7,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from .forms import (
-    LoginForm, 
+    LoginForm,
+    PesoTerneroForm, 
     ProduccionLecheForm, 
     FincaForm, 
     VacaForm, 
     TerneroForm, 
-    PesoVacaForm, 
-    FincaForm, 
-    VacaForm, 
-    TerneroForm,
-    PesoTerneroForm
+    PesoVacaForm
     )
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import path, reverse_lazy
@@ -26,9 +23,6 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from datetime import datetime, timedelta
-
-
-
 
 
 # Vista de inicio de sesión
@@ -51,8 +45,6 @@ def login_view(request):
         form = AuthenticationForm()
     
     return render(request, 'ganaderia/login.html', {'is_login_page': True})
-
-
 
 
 # Vista de registro de usuarios
@@ -187,7 +179,7 @@ def dashboard(request):
 
 
 
-login_required
+@login_required
 @permission_required('ganaderia.add_produccionleche', raise_exception=True)
 def produccion_leche_create(request):
     if request.method == 'POST':
@@ -204,7 +196,7 @@ def produccion_leche_create(request):
     return render(request, 'ganaderia/produccion_leche_form.html', {'form': form})
 
 @login_required
-@permission_required('ganaderia.add_peso', raise_exception=True)
+@permission_required('ganaderia.add_pesovaca', raise_exception=True)
 def peso_vaca_create(request):
     if request.method == "POST":
         form = PesoVacaForm(request.POST)
@@ -218,7 +210,7 @@ def peso_vaca_create(request):
                 peso_vaca = form.save(commit=False)
                 peso_vaca.fecha = fecha
                 peso_vaca.save()
-                return redirect(peso_vaca_create)
+                return redirect('pesovaca/nueva/')
 
             except ValueError:
                 form.add_error('fecha', 'Introduzca una fecha válida')
@@ -243,7 +235,7 @@ def peso_ternero_create(request):
                 peso_ternero = form.save(commit=False)
                 peso_ternero.fecha = fecha
                 peso_ternero.save()
-                return redirect(peso_ternero_create)
+                return redirect('pesoternero/nueva/')
 
             except ValueError:
                 form.add_error('fecha', 'Introduzca una fecha válida')
@@ -253,6 +245,7 @@ def peso_ternero_create(request):
             form = PesoTerneroForm()
         
     return render(request, 'ganaderia/peso_ternero_form.html', {'form': form})
+
 
 
 
