@@ -3,12 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-from .models import ProduccionLeche 
-from .models import Finca, Vaca, Ternero
-
-
-
-
+from .models import ProduccionLeche, Finca, Vaca, Ternero, PesoVaca, PesoTernero
 
 class RegistroUsuarioForm(UserCreationForm):
     class Meta:
@@ -20,13 +15,10 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Usuario'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
 
-
 class ProduccionLecheForm(forms.ModelForm):
     class Meta:
         model = ProduccionLeche
-        fields = ['vaca', 'fecha', 'cantidad_leche', 'observacion'] 
-
-
+        fields = ['vaca', 'cantidad_leche', 'observacion'] 
 
 class FincaForm(forms.ModelForm):
     class Meta:
@@ -43,5 +35,18 @@ class TerneroForm(forms.ModelForm):
         model = Ternero
         fields = ['fecha_nacimiento', 'raza', 'color', 'sexo', 'observaciones']
 
+class PesoVacaForm(forms.ModelForm):
+    class Meta:
+        model = PesoVaca
+        fields = ['vaca', 'fecha', 'peso', 'observaciones']
 
+
+
+class PesoTerneroForm(forms.ModelForm):
+    class Meta:
+        model = PesoTernero
+        fields = ['ternero', 'fecha', 'peso', 'observaciones']
+        widgets = {
+            'fecha_peso': forms.DateInput(attrs={'type': 'date'}),  # Facilita la entrada de fecha
+        }
 

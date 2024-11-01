@@ -1,0 +1,15 @@
+{% extends 'ganaderia/base.html' %}
+
+{% block title %}Registro de Leche{% endblock %}
+
+{% block content %}
+<h2>Registro de Leche</h2>
+<form method="post">
+    {% csrf_token %}
+    <!-- Aquí puedes agregar campos para el registro de leche -->
+    <label for="cantidad">Cantidad de Leche:</label>
+    <input type="number" id="cantidad" name="cantidad" required>
+    
+    <button type="submit">Registrar</button>
+</form>
+{% endblock %}

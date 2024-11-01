@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="es">
+    <div class="top-bar"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Aplicación Ganadera{% endblock %}</title>
+    {% load static %}
+
+
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+</head>
+<body>
+    <header class="custom-header text-white p-3">
+        <h1 class="text-center">Mi Aplicación Ganadera</h1>
+        <nav class="text-center">
+            <ul class="list-inline">
+                {% if user.is_authenticated %}
+                   <!-- <li class="list-inline-item"><a class="text-white" href="{% url 'dashboard' %}">Dashboard</a></li> -->
+                   <!-- <li class="list-inline-item"><a class="text-white" href="{% url 'register' %}">Registro de Animales</a></li> -->
+                    <!--<li class="list-inline-item"><a class="text-white" href="{% url 'leche' %}">Registro de Leche</a></li>-->
+                {% endif %}
+                {% if request.resolver_match.url_name != 'login' %}
+                    <!--<li class="list-inline-item"><a class="text-white" href="{% url 'login' %}">Iniciar Sesión</a></li>-->
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-dark text-white text-center p-3 mt-4">
+        <p>&copy; 2024 Mi Aplicación Ganadera. Todos los derechos reservados.</p>
+    </footer>
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+

@@ -56,7 +56,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  
+        'DIRS': [os.path.join(BASE_DIR, 'ganaderia/templates')],  
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,12 +64,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.contrib.auth.context_processors.auth',
             ],
         },
     },
 ]
 
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  
+]
 
 
 
@@ -112,18 +117,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'es-CO'  
+TIME_ZONE = 'America/Bogota'  
 USE_I18N = True
-
 USE_TZ = True
-
-
-
-
-STATIC_URL = 'static/'
 
 
 

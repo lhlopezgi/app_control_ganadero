@@ -1,18 +1,26 @@
 
+{% extends "ganaderia/base.html" %}
+
+{% block content %}
 <h2>Bienvenido al Control Ganadero</h2>
 
-{% if user.is_authenticated %}
-    <p>Hola, {{ user.username }}!</p>
-    
-    {% if can_add_finca %}
-        <p><a href="{% url 'finca_create' %}">Registrar Finca</a></p>
+{% if not user.is_authenticated %}
+    <!-- Formulario de Inicio de Sesión -->
+    <h3>Iniciar Sesión</h3>
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
     {% endif %}
-    
-    {% if can_add_vaca %}
-        <p><a href="{% url 'vaca_create' %}">Registrar Vaca</a></p>
-    {% endif %}
-    
-    {% if can_add_ternero %}
-        <p><a href="{% url 'ternero_create' %}">Registrar Ternero</a></p>
-    {% endif %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ingresar</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
+{% else %}
+    <!-- Mensaje de Bienvenida para Usuarios Autenticados -->
+    <p>Hola, {{ user.username }}! Bienvenido al Control Ganadero.</p>
+    <p><a href="{% url 'dashboard' %}">Ir al Dashboard</a></p>
 {% endif %}
+{% endblock %}
