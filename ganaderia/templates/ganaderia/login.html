@@ -1,35 +1,26 @@
+
+
 {% extends 'ganaderia/base.html' %}
 
-{% block title %}Iniciar sesión - Mi Aplicación Ganadera{% endblock %}
+{% block title %}Login - Mi Aplicación Ganadera{% endblock %}
 
 {% block content %}
-<div class="login-page">
-    <div class="login-container">
-        <h2 class="login-title">Bienvenido</h2>
-        <p class="login-subtitle">Inicia sesión en tu cuenta</p>
-        
-        {% if messages %}
-            <div class="alert">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        <form method="post" class="login-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Usuario:</label>
-                <input type="text" name="username" id="username" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" id="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn-login">Ingresar</button>
-        </form>
-        
-        <p class="register-link">¿No tienes una cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
-    </div>
+<body class="login-page">
+
+<div class="login-container">
+    <h2>Inicio de Sesión</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Usuario:</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+    <p class="register-link">¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
 </div>
 {% endblock %}

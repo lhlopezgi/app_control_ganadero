@@ -3,6 +3,13 @@
 {% block title %}Dashboard - Mi Aplicación Ganadera{% endblock %}
 
 {% block content %}
+
+<body class="dashboard-page">
+    
+
+
+
+
 <div class="row">
     <div class="sidebar">
         <h2 class="sidebar-title">Menú</h2>
@@ -19,6 +26,7 @@
                     <li><a href="#" onclick="showForm('peso_ternero_create')">Registrar Peso de Ternero</a></li>
                 </ul>
             </li>
+            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
         </ul>
     </div>
               
@@ -192,6 +200,7 @@
         </div>
     </div>
 </div>
+</body>
 
 <script>
 function showDashboard(event) {
