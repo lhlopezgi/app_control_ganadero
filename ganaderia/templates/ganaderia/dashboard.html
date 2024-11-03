@@ -26,7 +26,12 @@
                     <li><a href="#" onclick="showForm('peso_ternero_create')">Registrar Peso de Ternero</a></li>
                 </ul>
             </li>
-            <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+            
+            <button class="logout-button">
+                <i class="fas fa-sign-out-alt"></i> <a href="{% url 'logout' %}">Cerrar Sesión</a>
+            </button>
+
+
         </ul>
     </div>
               

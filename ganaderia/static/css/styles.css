@@ -186,5 +186,30 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+.logout-button {
+    background-color: #b69014;      /* Color de fondo */
+    color: #065308;                    /* Color del texto */
+    border: none;                   /* Sin borde */
+    border-radius: 5px;             /* Bordes redondeados */
+    padding: 10px 20px;             /* Espaciado interno */
+    font-size: 16px;                /* Tamaño de la fuente */
+    font-weight: bold;              /* Texto en negrita */
+    display: inline-flex;           /* Alinear icono y texto */
+    align-items: center;            /* Centrado vertical */
+    cursor: pointer;                /* Cambiar el cursor al pasar */
+    transition: background-color 0.3s ease; /* Transición para hover */
+}
+
+.logout-button i {
+    margin-right: 8px;              /* Separación entre icono y texto */
+}
+
+.logout-button:hover {
+    background-color: white;      /* Color de fondo al pasar */
+}
+
+.logout-button:focus {
+    outline: none;                  /* Sin borde al seleccionar */
+}
 
 
