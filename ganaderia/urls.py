@@ -19,6 +19,8 @@ urlpatterns = [
     path('produccionleche/nueva/', views.produccion_leche_create, name='produccion_leche_create'),
     path('pesoternero/nueva/', views.peso_ternero_create, name='peso_ternero_create'),
     path('leche/', views.leche_view, name='leche'),
+    path('vacas/', views.vacas, name='vacas'),
+    path('terneros/', views.terneros, name='terneros'),
    
 ]
 

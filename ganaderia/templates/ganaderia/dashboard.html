@@ -1,8 +1,9 @@
 {% extends 'ganaderia/base.html' %}
-
+{% load static %}
 {% block title %}Dashboard - Mi Aplicación Ganadera{% endblock %}
 
 {% block content %}
+
 
 <body class="dashboard-page">
     
@@ -15,9 +16,14 @@
         <h2 class="sidebar-title">Menú</h2>
         <ul class="sidebar-menu">
             <li><a href="#" onclick="showDashboard(event)">Dashboard</a></li>
+
+
+
+
+            
             <li>
                 <a href="#" onclick="toggleRegisterMenu(event)">Registro</a>
-                <ul class="submenu" id="register-menu" style="display:none;">
+                <ul class="submenu" id="register-menu">
                     <li><a href="#" onclick="showForm('finca_create')">Registrar Nueva Finca</a></li>
                     <li><a href="#" onclick="showForm('vaca_create')">Registrar Nueva Vaca</a></li>
                     <li><a href="#" onclick="showForm('ternero_create')">Registrar Nuevo Ternero</a></li>
@@ -26,6 +32,16 @@
                     <li><a href="#" onclick="showForm('peso_ternero_create')">Registrar Peso de Ternero</a></li>
                 </ul>
             </li>
+            
+            <div class="info-container">
+                <p class="info-text">¡Conoce mejor a tu ganado! Haz clic </p>
+                <button class="info-button" onclick="showInfo('vacas')">Vacas</button>
+                <button class="info-button" onclick="showInfo('terneros')">Terneros</button>
+            </div>
+            
+
+            
+
             
             <button class="logout-button">
                 <i class="fas fa-sign-out-alt"></i> <a href="{% url 'logout' %}">Cerrar Sesión</a>

@@ -25,6 +25,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from datetime import datetime, timedelta
 
 
+
 # Vista de inicio de sesión
 def login_view(request):
     if request.method == 'POST':
@@ -252,6 +253,13 @@ def peso_ternero_create(request):
 def leche_view(request):
     return render(request, 'ganaderia/leche.html')
 
+
+
+def vacas(request):
+    return render(request, 'ganaderia/vacas.html')
+
+def terneros(request):
+    return render(request, 'ganaderia/terneros.html')
 
 
 

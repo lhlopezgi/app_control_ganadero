@@ -34,7 +34,9 @@ body {
     border-radius: 10px;
     color: #ecf0f1;
     font-family: Arial, sans-serif;
-    box-shadow: 1px 0 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 0 4px rgba(204, 5, 5, 0.1);
+    position: relative; /* Asegúrate de que el sidebar esté en un contexto posicional */
+    z-index: 10; 
 }
 
 /* Estilo para los enlaces en el menú de la barra lateral */
@@ -201,7 +203,10 @@ body {
 }
 
 .logout-button i {
-    margin-right: 8px;              /* Separación entre icono y texto */
+    margin-right: 20px;              /* Separación entre icono y texto */
+}
+.logout-button {
+    margin-top: 20px; /* Aumenta el margen superior según sea necesario */
 }
 
 .logout-button:hover {
@@ -212,4 +217,41 @@ body {
     outline: none;                  /* Sin borde al seleccionar */
 }
 
+.submenu {
+    display: none; /* Ocultar el submenú por defecto */
+    padding-left: 20px; /* Indentar el submenú */
+    background-color: #b69014; /* Cambiar al color de fondo deseado */
+    border-radius: 5px; /* Bordes redondeados para el submenú */
+    
+}
 
+.info-container {
+    background-color: #f8f9fa; /* Fondo claro para el contenedor */
+    padding: 20px;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.info-text {
+    font-size: 18px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Negrita para mayor énfasis */
+    color: #333; /* Color oscuro para el texto */
+    margin-bottom: 15px; /* Espacio entre el texto y los botones */
+    text-align: center; /* Centrar el texto */
+}
+
+.info-button {
+    background-color: #b69014; /* Color de fondo azul */
+    color: #065308; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px 10px; /* Espaciado interno */
+    margin: 5px; /* Espaciado entre botones */
+    border-radius: 5px; /* Bordes redondeados en los botones */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.info-button:hover {
+    background-color: #d7da4e; /* Color más oscuro al pasar el ratón */
+}

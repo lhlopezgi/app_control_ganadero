@@ -15,11 +15,9 @@ function showDashboard(event) {
 }
 
 
-function showForm(formId) {
-    // Oculta todos los formularios
-    document.querySelectorAll('.form-content').forEach(form => {
-        form.style.display = 'none';
-    });
+function showForm(formName) {
+    console.log("Mostrar formulario: " + formName);
+}
 
     // Muestra el formulario específico
     const form = document.getElementById(formId);
@@ -28,7 +26,7 @@ function showForm(formId) {
     } else {
         console.error("No se encontró el formulario con el ID: " + formId);
     }
-}
+
 
 // Mostrar la primera pestaña por defecto
 document.addEventListener("DOMContentLoaded", function() {
@@ -50,10 +48,24 @@ function openTab(evt, tabName) {
 }
 
 function toggleRegisterMenu(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    event.preventDefault(); // Evita que el enlace navegue
     var registerMenu = document.getElementById("register-menu");
-    registerMenu.style.display = registerMenu.style.display === "none" ? "block" : "none"; // Mostrar/ocultar el menú de registro
+    if (registerMenu) {
+        // Cambia el display del submenú
+        registerMenu.style.display = registerMenu.style.display === 'none' ? 'block' : 'none';
+    }
 }
+
+function toggleInventoryMenu(event) {
+    event.preventDefault(); // Evita que el enlace navegue
+    var inventoryMenu = document.getElementById("inventory-menu");
+    if (inventoryMenu) {
+        // Cambia el display del submenú
+        inventoryMenu.style.display = inventoryMenu.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+
 
 // Manejo de clic en los enlaces del menú
 document.querySelectorAll('.sidebar-menu a').forEach(link => {
@@ -67,6 +79,13 @@ document.querySelectorAll('.sidebar-menu a').forEach(link => {
         } else {
             showForm(target); // Mostrar el formulario correspondiente
         }
+
+        if (target === 'inventory-menu') {
+            toggleInventoryMenu(event);
+        } else {
+            showForm(target); // Mostrar el formulario correspondiente
+        }
+
     });
 });
 
