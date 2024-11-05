@@ -3,7 +3,6 @@ from pathlib import Path
 import os
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4a($qe%y6^=r5sh)cis(20ko4mjzz*pm)ajs6i4e$g17&w@tb0'
 DEBUG = True
@@ -49,11 +48,8 @@ TEMPLATES = [
     },
 ]
 
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "ganaderia/static")]
 WSGI_APPLICATION = 'control_ganadero.wsgi.application'
 
 DATABASES = {
@@ -66,7 +62,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -81,7 +76,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 LANGUAGE_CODE = 'es-CO'  
 TIME_ZONE = 'America/Bogota'  
 USE_I18N = True

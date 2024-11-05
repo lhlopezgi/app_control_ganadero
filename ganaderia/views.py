@@ -23,6 +23,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from datetime import datetime, timedelta
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 
 
@@ -46,8 +48,6 @@ def login_view(request):
         form = AuthenticationForm()
     
     return render(request, 'ganaderia/login.html', {'is_login_page': True})
-
-
 # Vista de registro de usuarios
 def register_view(request):
     if request.method == 'POST':
@@ -61,24 +61,18 @@ def register_view(request):
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = UserCreationForm()
-    
     return render(request, 'ganaderia/register.html', {'form': form})
-
 # Vista de cierre de sesión
 @login_required
 def logout_view(request):
     logout(request)
     messages.info(request, "Has cerrado sesión.")
     return redirect('login')
-
 # ganaderia/views.py
-
-
 @login_required
 def home(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
-
     # Para usuarios no autenticados, mostrar el formulario de inicio de sesión
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -93,14 +87,9 @@ def home(request):
                 messages.error(request, "Usuario o contraseña incorrectos.")
         else:
             messages.error(request, "Información inválida.")
-
     else:
         form = AuthenticationForm()
-
     return render(request, 'ganaderia/home.html', {'form': form})
-
-
-
 # Vista para registrar una nueva finca
 @login_required
 @permission_required('ganaderia.add_finca', raise_exception=True)
@@ -110,13 +99,13 @@ def finca_create(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Finca registrada correctamente.")
-            return redirect('home')
+            return redirect('dashboard')  # Asegúrate de que esta URL esté definida
         else:
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = FincaForm()
-    
-    return render(request, 'ganaderia/finca_form.html', {'form': form})
+    return render(request, 'ganaderia/dashboard.html', {'form': form})
+
 
 
 @login_required
@@ -132,8 +121,8 @@ def vaca_create(request):
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = VacaForm()
-    
-    return render(request, 'ganaderia/vaca_form.html', {'form': form})
+    return render(request, 'ganaderia/dashboard.html', {'form': form})
+
 
 # Vista para registrar un nuevo ternero
 @login_required
@@ -141,33 +130,31 @@ def vaca_create(request):
 def ternero_create(request):
     if request.method == 'POST':
         form = TerneroForm(request.POST)
+        print(f"Form data: {request.POST}")  # Imprime los datos recibidos del formulario
+
         if form.is_valid():
             form.save()
             messages.success(request, "Ternero registrado correctamente.")
             return redirect('home')
         else:
+            print(f"Form errors: {form.errors}")  # Imprime los errores del formulario
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = TerneroForm()
     
-    return render(request, 'ganaderia/ternero_form.html', {'form': form})
-
+    return render(request, 'ganaderia/dashboard.html', {'form': form})
 
 @login_required
 def dashboard(request):
     # Obtener la cantidad de animales en producción
     animales_en_produccion = Animal.objects.filter(en_produccion=True).count()
-    
     # Obtener la cantidad de leche producida en los últimos 30 días
     leche_ultimos_30_dias = Leche.objects.filter(fecha__gte=datetime.now()-timedelta(days=30)).aggregate(Sum('cantidad'))['cantidad__sum'] or 0
-
     # Obtener la cantidad de leche producida hoy
     leche_hoy = Leche.objects.filter(fecha=datetime.now().date()).aggregate(Sum('cantidad'))['cantidad__sum'] or 0
-    
     # Obtener la cantidad de terneros machos y hembras
     terneros_machos = Animal.objects.filter(genero='macho', en_crecimiento=True).count()
     terneros_hembras = Animal.objects.filter(genero='hembra', en_crecimiento=True).count()
-
     context = {
         'animales_en_produccion': animales_en_produccion,
         'leche_ultimos_30_dias': leche_ultimos_30_dias,
@@ -175,26 +162,24 @@ def dashboard(request):
         'terneros_machos': terneros_machos,
         'terneros_hembras': terneros_hembras,
     }
-
     return render(request, 'ganaderia/dashboard.html', context)
-
-
-
 @login_required
 @permission_required('ganaderia.add_produccionleche', raise_exception=True)
 def produccion_leche_create(request):
     if request.method == 'POST':
         form = ProduccionLecheForm(request.POST)
+        print(f"Form data: {request.POST}")  # Imprime los datos recibidos del formulario
         if form.is_valid():
             form.save()
             messages.success(request, "Producción de leche registrada correctamente.")
             return redirect('home')
         else:
+            print(f"Form errors: {form.errors}")  # Imprime los errores del formulario
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = ProduccionLecheForm()
-    
-    return render(request, 'ganaderia/produccion_leche_form.html', {'form': form})
+    return render(request, 'ganaderia/dashboard.html', {'form': form})
+
 
 @login_required
 @permission_required('ganaderia.add_pesovaca', raise_exception=True)
@@ -202,23 +187,15 @@ def peso_vaca_create(request):
     if request.method == "POST":
         form = PesoVacaForm(request.POST)
         if form.is_valid():
-            # Convertir la fecha si es necesario
-            fecha_str = request.POST.get('fecha')
-            try:
-                # Cambia el formato según lo que necesitas (DD/MM/YYYY)
-                fecha = timezone.datetime.strptime(fecha_str, '%d/%m/%Y').date()
-                # Asigna la fecha convertida al objeto
-                peso_vaca = form.save(commit=False)
-                peso_vaca.fecha = fecha
-                peso_vaca.save()
-                return redirect('pesovaca/nueva/')
-
-            except ValueError:
-                form.add_error('fecha', 'Introduzca una fecha válida')
+            form.save()
+            messages.success(request, "Peso de la vaca registrado correctamente.")
+            return redirect('home')
+        else:
+            print("Errores del formulario:", form.errors)  # Depurar los errores
     else:
         form = PesoVacaForm()
-    
-    return render(request, 'ganaderia/peso_vaca_form.html', {'form': form})
+
+    return render(request, 'ganaderia/dashboard.html', {'form': form})
 
 
 @login_required
@@ -227,37 +204,22 @@ def peso_ternero_create(request):
     if request.method == "POST":
         form = PesoTerneroForm(request.POST)
         if form.is_valid():
-# Convertir la fecha si es necesario
-            fecha_str = request.POST.get('fecha')
-            try:
-                # Cambia el formato según lo que necesitas (DD/MM/YYYY)
-                fecha = timezone.datetime.strptime(fecha_str, '%d/%m/%Y').date()
-                # Asigna la fecha convertida al objeto
-                peso_ternero = form.save(commit=False)
-                peso_ternero.fecha = fecha
-                peso_ternero.save()
-                return redirect('pesoternero/nueva/')
-
-            except ValueError:
-                form.add_error('fecha', 'Introduzca una fecha válida')
-
-
+            form.save()
+            messages.success(request, "Peso del ternero registrado correctamente.")
+            return redirect('home')  # O cualquier otra URL a la que desees redirigir después del éxito
+        else:
+            print("Errores del formulario:", form.errors)  # Depurar los errores
     else:
-            form = PesoTerneroForm()
-        
-    return render(request, 'ganaderia/peso_ternero_form.html', {'form': form})
+        form = PesoTerneroForm()
+
+    return render(request, 'ganaderia/dashboard.html', {'form': form})
 
 
-
-
+    
 def leche_view(request):
     return render(request, 'ganaderia/leche.html')
-
-
-
 def vacas(request):
     return render(request, 'ganaderia/vacas.html')
-
 def terneros(request):
     return render(request, 'ganaderia/terneros.html')
 

@@ -3,14 +3,12 @@ body {
     margin: 0;
     padding: 0;
 }
-
 .top-bar {
     background-color: rgb(255, 255, 255); /* Color de la franja */
     height: 30px; /* Ajusta el tamaño de la franja */
     width: 100%; /* Asegúrate de que ocupe todo el ancho */
     position: relative; /* Mantiene la franja en su lugar */
 }
-
 .custom-header {
     background-color: #065308; /* Cambia a tu color deseado */
     color: white;
@@ -20,12 +18,10 @@ body {
     padding: 20px;
     text-align: center;
 }
-
 /* Contenedor del dashboard */
 .dashboard-container {
     display: flex; /* Usar flexbox para organizar el menú y el contenido */
 }
-
 .sidebar {
     background-color: #065308;
     width: 250px;
@@ -38,7 +34,6 @@ body {
     position: relative; /* Asegúrate de que el sidebar esté en un contexto posicional */
     z-index: 10; 
 }
-
 /* Estilo para los enlaces en el menú de la barra lateral */
 .sidebar-menu a {
     text-decoration: none;
@@ -50,36 +45,28 @@ body {
     white-space: nowrap;
     font-size: 13px;
     overflow: hidden;
-
     text-align: left; /* Alinea el texto a la izquierda */
 }
-
 .sidebar-menu {
     padding: 0; /* Elimina padding del contenedor del menú */
     margin: 0; /* Elimina margen del contenedor del menú */
 }
-
 .sidebar-menu li {
     list-style: none;
     margin: 5px 0; /* Controla el espacio entre botones */
 }
-
-
 .sidebar-menu a:hover {
     background-color: #f1ecec;
     color: #065308;
 }
-
 .form-content {
     display: none; /* Ocultar formularios por defecto */
     margin-top: 10px;
 }
-
 .dashboard-container a:hover {
     color: #b44e0a; /* Verde claro para el efecto hover */
     text-decoration: underline;
 }
-
 /* Estilos adicionales */
 .form-control {
     width: 100%;
@@ -89,28 +76,22 @@ body {
     border-radius: 5px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
 }
-
 .sidebar-title {
     text-align: center; /* Centra el texto horizontalmente */
     font-size: 30px; /* Ajusta el tamaño de la fuente si es necesario */
     margin-bottom: 20px; /* Espacio debajo del título para separarlo de los elementos de menú */
     color: #ecf0f1; /* Asegúrate de que el color sea el mismo que el de los enlaces */
 }
-
 .sidebar {
     min-width: 250px;
     max-width: fit-content; /* Ajusta dinámicamente el ancho según el texto */
 }
-
 /*.dashboard-page {
     background-image: url("../img/imagen4vaca.jpg"); /* Ruta de la imagen de fondo 
     background-size: cover; /* Ajusta la imagen para cubrir todo el fondo 
     background-repeat: no-repeat;
     background-position: center;
 }*/
-
-
-
 /* Estilos de la página de inicio de sesión */
 .login-container {
     max-width: 400px;
@@ -122,25 +103,21 @@ body {
     background-color: #fff;
     text-align: center;
 }
-
 .login-container h2 {
     margin-bottom: 20px;
     font-size: 1.5em;
     color: #065308;
 }
-
 .form-group {
     margin-bottom: 15px;
     text-align: left;
 }
-
 .form-control {
     width: 100%;
     padding: 10px;
     border: 1px solid #2e8a31;
     border-radius: 4px;
 }
-
 .btn-primary {
     background-color: #065308;
     color: #fff;
@@ -150,21 +127,17 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 .btn-primary:hover {
     background-color: #053d06;
 }
-
 .register-link {
     margin-top: 10px;
     font-size: 0.9em;
 }
-
 .register-link a {
     color: #065308;
     text-decoration: underline;
 }
-
 /* Estilo de fondo para la página de inicio de sesión */
 body.login-page {
     background-image: url("../img/imagen1vaca.jpg");
@@ -173,11 +146,9 @@ body.login-page {
     background-repeat: no-repeat; /* Evita que se repita la imagen */
     background-position: center 25%;
 }
-
 body {
     background: none; /* Eliminar la imagen de fondo para otras páginas */
 }
-
 .login-container {
     max-width: 400px;
     margin: 50px auto;
@@ -187,7 +158,6 @@ body {
     background-color: rgba(255, 255, 255, 0.6); /* Fondo blanco semi-transparente */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
-
 .logout-button {
     background-color: #b69014;      /* Color de fondo */
     color: #065308;                    /* Color del texto */
@@ -201,22 +171,18 @@ body {
     cursor: pointer;                /* Cambiar el cursor al pasar */
     transition: background-color 0.3s ease; /* Transición para hover */
 }
-
 .logout-button i {
     margin-right: 20px;              /* Separación entre icono y texto */
 }
 .logout-button {
     margin-top: 20px; /* Aumenta el margen superior según sea necesario */
 }
-
 .logout-button:hover {
     background-color: white;      /* Color de fondo al pasar */
 }
-
 .logout-button:focus {
     outline: none;                  /* Sin borde al seleccionar */
 }
-
 .submenu {
     display: none; /* Ocultar el submenú por defecto */
     padding-left: 20px; /* Indentar el submenú */
@@ -224,7 +190,6 @@ body {
     border-radius: 5px; /* Bordes redondeados para el submenú */
     
 }
-
 .info-container {
     background-color: #f8f9fa; /* Fondo claro para el contenedor */
     padding: 20px;
@@ -232,7 +197,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
     margin-top: 20px; /* Espaciado superior */
 }
-
 .info-text {
     font-size: 18px; /* Tamaño de fuente más grande */
     font-weight: bold; /* Negrita para mayor énfasis */
@@ -240,7 +204,6 @@ body {
     margin-bottom: 15px; /* Espacio entre el texto y los botones */
     text-align: center; /* Centrar el texto */
 }
-
 .info-button {
     background-color: #b69014; /* Color de fondo azul */
     color: #065308; /* Color del texto */
@@ -251,7 +214,6 @@ body {
     cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
     transition: background-color 0.3s; /* Transición suave para el color de fondo */
 }
-
 .info-button:hover {
     background-color: #d7da4e; /* Color más oscuro al pasar el ratón */
 }
