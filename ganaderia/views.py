@@ -48,10 +48,13 @@ def login_view(request):
         form = AuthenticationForm()
     
     return render(request, 'ganaderia/login.html', {'is_login_page': True})
-# Vista de registro de usuarios
+
+
+from .forms import RegistroUsuarioForm  # Importamos el formulario personalizado
+
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -60,8 +63,11 @@ def register_view(request):
         else:
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
-        form = UserCreationForm()
+        form = RegistroUsuarioForm()
+    
     return render(request, 'ganaderia/register.html', {'form': form})
+
+
 # Vista de cierre de sesión
 @login_required
 def logout_view(request):

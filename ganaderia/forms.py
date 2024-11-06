@@ -5,10 +5,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from .models import ProduccionLeche, Finca, Vaca, Ternero, PesoVaca, PesoTernero
 
+
 class RegistroUsuarioForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2']    
+        fields = ['username', 'password1', 'password2']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
+  
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Usuario'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
