@@ -50,6 +50,7 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "ganaderia/static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 WSGI_APPLICATION = 'control_ganadero.wsgi.application'
 
 DATABASES = {
@@ -84,5 +85,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'  
 LOGIN_REDIRECT_URL = '/dashboard/'  
 
+# settings.py
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+from django.contrib.messages import constants as message_constants
+
+# Configuración para mensajes
+MESSAGE_TAGS = {
+    message_constants.ERROR: 'alert alert-danger',  # Esto hará que el mensaje de error se muestre en rojo
+}
+
+# Configuración para redirección post-login
+LOGIN_REDIRECT_URL = '/'  # O la URL a la que deseas redirigir al usuario después de iniciar sesión
 
 

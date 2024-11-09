@@ -18,9 +18,11 @@ class RegistroUsuarioForm(UserCreationForm):
             field.widget.attrs['placeholder'] = field.label
 
   
-class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Usuario'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
+
 class ProduccionLecheForm(forms.ModelForm):
     class Meta:
         model = ProduccionLeche

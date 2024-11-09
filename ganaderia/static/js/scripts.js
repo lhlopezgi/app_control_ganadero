@@ -14,9 +14,10 @@ function showDashboard(event) {
 
 // Muestra el formulario específico
 function showForm(formId) {
+    hideAllForms(); // Ocultar todos los formularios
     const form = document.getElementById(formId);
     if (form) {
-        form.style.display = 'block';
+        form.style.display = 'block'; // Mostrar el formulario seleccionado
     } else {
         console.error("No se encontró el formulario con el ID: " + formId);
     }
@@ -39,21 +40,18 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active"; // Añadir clase activa
 }
 
-function toggleRegisterMenu(event) {
-    event.preventDefault(); // Evita que el enlace navegue
-    var registerMenu = document.getElementById("register-menu");
-    if (registerMenu) {
-        registerMenu.style.display = registerMenu.style.display === 'none' ? 'block' : 'none';
+function toggleMenu(event, menuId) {
+    event.preventDefault(); // Evita que el enlace recargue la página
+    var menu = document.getElementById(menuId);
+    if (menu) {
+        // Alterna la visibilidad del submenú
+        menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+        
+        console.log('Toggling menu:', menuId);  // Esto te ayudará a verificar si el ID del menú es correcto.
+
     }
 }
 
-function toggleInventoryMenu(event) {
-    event.preventDefault(); // Evita que el enlace navegue
-    var inventoryMenu = document.getElementById("inventory-menu");
-    if (inventoryMenu) {
-        inventoryMenu.style.display = inventoryMenu.style.display === 'none' ? 'block' : 'none';
-    }
-}
 
 // Manejo de clic en los enlaces del menú
 document.querySelectorAll('.sidebar-menu a').forEach(link => {
@@ -61,23 +59,17 @@ document.querySelectorAll('.sidebar-menu a').forEach(link => {
         event.preventDefault(); // Evitar que el enlace recargue la página
         const target = this.getAttribute('data-target'); // Obtener el ID del destino
 
-        // Si se hace clic en el enlace de registro, alternar el submenú
         if (target === 'register-menu') {
-            toggleRegisterMenu(event);
-        } else {
-            showForm(target); // Mostrar el formulario correspondiente
-        }
-
-        if (target === 'inventory-menu') {
-            toggleInventoryMenu(event);
+            toggleMenu(event, 'register-menu'); // Alternar el submenú de registro
+        } else if (target === 'inventory-menu') {
+            toggleMenu(event, 'inventory-menu'); // Alternar el submenú de inventario
         } else {
             showForm(target); // Mostrar el formulario correspondiente
         }
     });
 });
 
-
-
+// Obtener el token CSRF desde las cookies
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -93,84 +85,14 @@ function getCookie(name) {
     return cookieValue;
 }
 
-ddocument.getElementById('ternero_create' ).querySelector('form').addEventListener('submit', function(event) {
+// Manejo de envío de formularios
+function handleFormSubmit(formId, url, event) {
     event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
 
-    const form = this; // El formulario que está siendo enviado
-    const formData = new FormData(form);
+    const form = document.getElementById(formId); // El formulario que está siendo enviado
+    const formData = new FormData(form); // FormData para enviar los datos del formulario
 
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken') // Obtener el token CSRF desde las cookies
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const messageContainer = document.getElementById('message-container');
-        
-        // Limpiar mensajes anteriores
-        messageContainer.innerHTML = '';
-        
-        if (data.message) {
-            messageContainer.innerHTML = `<div>${data.message}</div>`;
-            messageContainer.style.display = 'block';  // Mostrar el contenedor de mensajes
-        }
-        if (data.errors) {
-            for (const error of data.errors) {
-                messageContainer.innerHTML += `<div>${error}</div>`;
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-
-
-ddocument.getElementById('produccion_leche_create').querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
-
-    const form = this; // El formulario que está siendo enviado
-    const formData = new FormData(form);
-
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken') // Obtener el token CSRF desde las cookies
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const messageContainer = document.getElementById('message-container');
-        
-        // Limpiar mensajes anteriores
-        messageContainer.innerHTML = '';
-        
-        if (data.message) {
-            messageContainer.innerHTML = `<div>${data.message}</div>`;
-            messageContainer.style.display = 'block';  // Mostrar el contenedor de mensajes
-        }
-        if (data.errors) {
-            for (const error of data.errors) {
-                messageContainer.innerHTML += `<div>${error}</div>`;
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-
-document.getElementById('peso_vaca_create').querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
-
-    const form = this; // El formulario que está siendo enviado
-    const formData = new FormData(form);  // Asegúrate de que el formData esté enviando los campos correctos
-
-    fetch(form.action, {
+    fetch(url, {
         method: 'POST',
         body: formData,
         headers: {
@@ -181,12 +103,12 @@ document.getElementById('peso_vaca_create').querySelector('form').addEventListen
     .then(data => {
         const messageContainer = document.getElementById('message-container');
         messageContainer.innerHTML = ''; // Limpiar mensajes anteriores
-
+        
+        // Mostrar mensaje de éxito o errores
         if (data.message) {
             messageContainer.innerHTML = `<div>${data.message}</div>`;
-            messageContainer.style.display = 'block';  // Mostrar el contenedor de mensajes
+            messageContainer.style.display = 'block';
         }
-
         if (data.errors) {
             for (const error of data.errors) {
                 messageContainer.innerHTML += `<div>${error}</div>`;
@@ -196,39 +118,33 @@ document.getElementById('peso_vaca_create').querySelector('form').addEventListen
     .catch(error => {
         console.error('Error:', error);
     });
-});
+}
 
-document.getElementById('peso_ternero_create').querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
 
-    const form = this; // El formulario que está siendo enviado
-    const formData = new FormData(form);  // Asegúrate de que el formData esté enviando los campos correctos
 
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken') // Obtener el token CSRF desde las cookies
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const messageContainer = document.getElementById('message-container');
-        messageContainer.innerHTML = ''; // Limpiar mensajes anteriores
+// Selecciona todos los mensajes de alerta para aplicar el efecto de desvanecimiento
+document.addEventListener('DOMContentLoaded', function () {
+    const messages = document.querySelectorAll('.fade-message');
+    messages.forEach((message) => {
+        // Espera 3 segundos y luego aplica la clase 'fade-out'
+        setTimeout(() => {
+            message.classList.add('fade-out');
+        }, 2000);
 
-        if (data.message) {
-            messageContainer.innerHTML = `<div>${data.message}</div>`;
-            messageContainer.style.display = 'block';  // Mostrar el contenedor de mensajes
-        }
-
-        if (data.errors) {
-            for (const error of data.errors) {
-                messageContainer.innerHTML += `<div>${error}</div>`;
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
+        // Elimina el mensaje del DOM cuando la animación finalice
+        message.addEventListener('animationend', () => {
+            message.remove();
+        });
     });
 });
+
+
+function toggleRegisterMenu(event) {
+    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    var menu = document.getElementById('register-menu');
+    if (menu) {
+        // Alternar la visibilidad del submenú
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+}
 

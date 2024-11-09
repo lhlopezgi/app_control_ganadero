@@ -10,7 +10,8 @@ from .forms import (
     LoginForm,
     PesoTerneroForm, 
     ProduccionLecheForm, 
-    FincaForm, 
+    FincaForm,
+    RegistroUsuarioForm, 
     VacaForm, 
     TerneroForm, 
     PesoVacaForm
@@ -29,28 +30,27 @@ from django.views.decorators.http import require_POST
 
 
 # Vista de inicio de sesión
+
 def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f"Bienvenido, {user.username}")
-                return redirect('home')
-            else:
-                messages.error(request, "Nombre de usuario o contraseña incorrectos.")
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Autentica al usuario
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            # Si las credenciales son correctas, inicia sesión y redirige
+            login(request, user)
+            return redirect('home')  # Redirige a la página de inicio u otra página
         else:
-            messages.error(request, "Nombre de usuario o contraseña incorrectos.")
-    else:
-        form = AuthenticationForm()
+            # Si las credenciales son incorrectas, agrega un mensaje de error
+            messages.error(request, "Usuario o contraseña incorrectos.")
     
-    return render(request, 'ganaderia/login.html', {'is_login_page': True})
+    return render(request, 'ganaderia/login.html')
 
 
-from .forms import RegistroUsuarioForm  # Importamos el formulario personalizado
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -137,13 +137,11 @@ def ternero_create(request):
     if request.method == 'POST':
         form = TerneroForm(request.POST)
         print(f"Form data: {request.POST}")  # Imprime los datos recibidos del formulario
-
         if form.is_valid():
             form.save()
             messages.success(request, "Ternero registrado correctamente.")
             return redirect('home')
         else:
-            print(f"Form errors: {form.errors}")  # Imprime los errores del formulario
             messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = TerneroForm()

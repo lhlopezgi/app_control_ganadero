@@ -1,154 +1,150 @@
-{% extends 'ganaderia/base.html' %}
-{% load static %}
+{% extends 'base.html' %}
+
 {% block title %}Dashboard - Mi Aplicación Ganadera{% endblock %}
 {% block content %}
 <body class="dashboard-page">
-    
-<div class="row">
-    <div class="sidebar">
-        <h2 class="sidebar-title">Menú</h2>
-        <ul class="sidebar-menu">
-            <li><a href="#" onclick="showDashboard(event)">Dashboard</a></li>
-            <li>
-                <a href="#" onclick="toggleRegisterMenu(event)">Registro</a>
-                <ul class="submenu" id="register-menu">
-                    <li><a href="#" onclick="showForm('finca_create')">Registrar Nueva Finca</a></li>
-                    <li><a href="#" onclick="showForm('vaca_create')">Registrar Nueva Vaca</a></li>
-                    <li><a href="#" onclick="showForm('ternero_create')">Registrar Nuevo Ternero</a></li>
-                    <li><a href="#" onclick="showForm('produccion_leche_create')">Registrar Producción de Leche</a></li>
-                    <li><a href="#" onclick="showForm('peso_vaca_create')">Registrar Peso de Vaca</a></li>
-                    <li><a href="#" onclick="showForm('peso_ternero_create')">Registrar Peso de Ternero</a></li>
-                </ul>
-            </li>
-            <div class="info-container">
-                <p class="info-text">¡Conoce mejor  tu ganado! Haz clic </p>
-                <button class="info-button" onclick="showInfo('vacas')">Vacas</button>
-                <button class="info-button" onclick="showInfo('terneros')">Terneros</button>
-            </div>
-            <button class="logout-button">
-                <i class="fas fa-sign-out-alt"></i> <a href="{% url 'logout' %}">Cerrar Sesión</a>
-            </button>
-        </ul>
-    </div>          
-    <div class="col-md-9">
-        {% if messages %}
-    <ul class="alert-messages">
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-        <!-- Contenido del Dashboard -->
-        <div id="dashboard-content" class="tabcontent" style="display:block;">
-            <h2>Información General</h2>
-            <p>Animales en producción: {{ animales_en_produccion }}</p>
-            <p>Leche producida en los últimos 30 días: {{ leche_ultimos_30_dias }}</p>
-            <p>Leche producida hoy: {{ leche_hoy }}</p>
-            <p>Terneros machos: {{ terneros_machos }}</p>
-            <p>Terneros hembras: {{ terneros_hembras }}</p>
-        </div>          
-        </form>
-        <!-- Formulario de Registrar Nueva Finca -->
-        <div class="form-content" id="finca_create" style="display:none;">
-            <h2>Registrar Nueva Finca</h2>
-            <form method="post" action="{% url 'finca_create' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="nombreFinca">Nombre de la Finca:</label>
-                    <input type="text" name="nombre" class="form-control" id="nombreFinca" placeholder="Nombre de la Finca" required>
-                </div>
-                <div class="form-group">
-                    <label for="cantidadHectareas">Cantidad de Hectáreas:</label>
-                    <input type="number" name="hectareas" class="form-control" id="cantidadHectareas" placeholder="Cantidad de Hectáreas" required>
-                </div>
-                <div class="form-group">
-                    <label for="ciudad">Ciudad:</label>
-                    <input type="text" name="ciudad" class="form-control" id="ciudad" placeholder="Ciudad" required>
-                </div>
-                <div class="form-group">
-                    <label for="asn">ASN:</label>
-                    <input type="number" name="asnm" class="form-control" id="asn" placeholder="ASN" required>
-                </div>
-                <div class="form-group">
-                    <label for="temperatura">Temperatura:</label>
-                    <input type="number" name="temperatura" class="form-control" id="temperatura" placeholder="Temperatura (°C)" required>
-                </div>
-                <div class="form-group">
-                    <label for="capacidadAnimales">Capacidad de Animales:</label>
-                    <input type="number" name="capacidad" class="form-control" id="capacidadAnimales" placeholder="Capacidad de Animales" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Registrar</button>
-            </form>
-            <div id="message-container"></div>
-        </div>
-        
-      
-        <!-- Formulario de Registrar Nueva Vaca -->
-        <div class="form-content" id="vaca_create" style="display:none;">
-            <h2>Registrar Nueva Vaca</h2>
-            <form method="post" action="{% url 'vaca_create' %}">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="fechaNacimientoVaca">Fecha de Nacimiento:</label>
-                    <input type="date" name="fecha_nacimiento" class="form-control" id="fechaNacimientoVaca" required>
-                </div>
-                <div class="form-group">
-                    <label for="razaVaca">Raza:</label>
-                    <input type="text" name="raza" class="form-control" id="razaVaca" placeholder="Raza" required>
-                </div>
-                <div class="form-group">
-                    <label for="colorVaca">Color:</label>
-                    <input type="text" name="color" class="form-control" id="colorVaca" placeholder="Color" required>
-                </div>
-                <div class="form-group">
-                    <label for="observacionesVaca">Observaciones Generales:</label>
-                    <textarea name="observaciones" class="form-control" id="observacionesVaca" placeholder="Observaciones" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Registrar</button>
-    
-            </form>
-            <div id="message-container"></div> 
-            
-        </div>
-    
-        
-        <!-- Formulario de Registrar Nuevo Ternero -->
-        <div id="ternero_create" class="form-content" style="display:none;">
-            <h2>Registrar Nuevo Ternero</h2>
-            <form method="post" action="{% url 'ternero_create' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="fechaNacimientoTernero">Fecha de Nacimiento:</label>
-                    <input type="date" class="form-control" id="fechaNacimientoTernero" name="fecha_nacimiento" required>
-                </div>
-                <div class="form-group">
-                    <label for="razaTernero">Raza:</label>
-                    <input type="text" class="form-control" id="razaTernero" name="raza" placeholder="Raza" required>
-                </div>
-                <div class="form-group">
-                    <label for="colorTernero">Color:</label>
-                    <input type="text" class="form-control" id="colorTernero" name="color" placeholder="Color" required>
-                </div>
-                <div class="form-group">
-                    <label for="sexoTernero">Sexo:</label>
-                    <select class="form-control" id="sexoTernero" name="sexo" required>
-                        <option value="">Seleccione...</option>
-                        <option value="Macho">Macho</option>
-                        <option value="Hembra">Hembra</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="observacionesTernero">Observaciones Generales:</label>
-                    <textarea class="form-control" id="observacionesTernero" name="observaciones" placeholder="Observaciones" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Registrar</button>
-            </form>
-            <div id="message-container"></div>
-        </div>
-        
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2 class="sidebar-title">Menú</h2>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showDashboard(event)">Dashboard</a></li>
+                <li>
+                    <a href="#" onclick="toggleMenu(event, 'register-menu')">Registro</a>
 
-        <!-- Formulario de Registrar Producción de Leche -->
+                    <ul class="submenu" id="register-menu"style="display: none;">
+                        <li><a href="#" onclick="showForm('finca_create')">Registrar Nueva Finca</a></li>
+                        <li><a href="#" onclick="showForm('vaca_create')">Registrar Nueva Vaca</a></li>
+                        <li><a href="#" onclick="showForm('ternero_create')">Registrar Nuevo Ternero</a></li>
+                        <li><a href="#" onclick="showForm('produccion_leche_create')">Registrar Producción de Leche</a></li>
+                        <li><a href="#" onclick="showForm('peso_vaca_create')">Registrar Peso de Vaca</a></li>
+                        <li><a href="#" onclick="showForm('peso_ternero_create')">Registrar Peso de Ternero</a></li>
+                    </ul>
+                </li>
+                <div class="info-container">
+                    <p class="info-text">¡Conoce mejor tu ganado! Haz clic </p>
+                    <button class="info-button" onclick="showInfo('vacas')">Vacas</button>
+                    <button class="info-button" onclick="showInfo('terneros')">Terneros</button>
+                </div>
+                <button class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i> <a href="{% url 'logout' %}">Cerrar Sesión</a>
+                </button>
+            </ul>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="col-md-9">
+            {% if messages %}
+                <ul class="alert-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" class="tabcontent" style="display:block;">
+                <h2>Información General</h2>
+                <p>Animales en producción: {{ animales_en_produccion }}</p>
+                <p>Leche producida en los últimos 30 días: {{ leche_ultimos_30_dias }}</p>
+                <p>Leche producida hoy: {{ leche_hoy }}</p>
+                <p>Terneros machos: {{ terneros_machos }}</p>
+                <p>Terneros hembras: {{ terneros_hembras }}</p>
+            </div>
+            
+            <!-- Formularios -->
+            <!-- Formulario de Registrar Nueva Finca -->
+            <div class="form-content" id="finca_create" style="display:none;">
+                <h2>Registrar Nueva Finca</h2>
+                <form method="post" action="{% url 'finca_create' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nombreFinca">Nombre de la Finca:</label>
+                        <input type="text" name="nombre" class="form-control" id="nombreFinca" placeholder="Nombre de la Finca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidadHectareas">Cantidad de Hectáreas:</label>
+                        <input type="number" name="hectareas" class="form-control" id="cantidadHectareas" placeholder="Cantidad de Hectáreas" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ciudad">Ciudad:</label>
+                        <input type="text" name="ciudad" class="form-control" id="ciudad" placeholder="Ciudad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asn">ASN:</label>
+                        <input type="number" name="asnm" class="form-control" id="asn" placeholder="ASN" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="temperatura">Temperatura:</label>
+                        <input type="number" name="temperatura" class="form-control" id="temperatura" placeholder="Temperatura (°C)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="capacidadAnimales">Capacidad de Animales:</label>
+                        <input type="number" name="capacidad" class="form-control" id="capacidadAnimales" placeholder="Capacidad de Animales" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+
+            <!-- Otros formularios como 'Registrar Nueva Vaca',-->
+            <div class="form-content" id="vaca_create" style="display:none;">
+                <h2>Registrar Nueva Vaca</h2>
+                <form method="post" action="{% url 'vaca_create' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="fechaNacimientoVaca">Fecha de Nacimiento:</label>
+                        <input type="date" name="fecha_nacimiento" class="form-control" id="fechaNacimientoVaca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="razaVaca">Raza:</label>
+                        <input type="text" name="raza" class="form-control" id="razaVaca" placeholder="Raza" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="colorVaca">Color:</label>
+                        <input type="text" name="color" class="form-control" id="colorVaca" placeholder="Color" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="observacionesVaca">Observaciones Generales:</label>
+                        <textarea name="observaciones" class="form-control" id="observacionesVaca" placeholder="Observaciones" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Registrar Nuevo Ternero -->
+            <div  class="form-content" id="ternero_create" style="display:none;">
+                <h2>Registrar Nuevo Ternero</h2>
+                <form method="post" action="{% url 'ternero_create' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="fechaNacimientoTernero">Fecha de Nacimiento:</label>
+                        <input type="date" class="form-control" id="fechaNacimientoTernero" name="fecha_nacimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="razaTernero">Raza:</label>
+                        <input type="text" class="form-control" id="razaTernero" name="raza" placeholder="Raza" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="colorTernero">Color:</label>
+                        <input type="text" class="form-control" id="colorTernero" name="color" placeholder="Color" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sexoTernero">Sexo:</label>
+                        <select class="form-control" id="sexoTernero" name="sexo" required>
+                            <option value="">Seleccione...</option>
+                            <option value="Macho">Macho</option>
+                            <option value="Hembra">Hembra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="observacionesTernero">Observaciones Generales:</label>
+                        <textarea class="form-control" id="observacionesTernero" name="observaciones" placeholder="Observaciones" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+
+             <!-- Formulario de Registrar Producción de Leche -->
                  
         <div id="produccion_leche_create" class="form-content" style="display:none;">
             <h2>Registrar Producción de Leche</h2>
@@ -215,33 +211,7 @@
 </div>
 
 
+     
 </body>
-<script>
-function showDashboard(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-    hideAllForms(); // Ocultar todos los formularios
-    document.getElementById("dashboard-content").style.display = "block"; // Mostrar el contenido del dashboard
-}
-function toggleRegisterMenu(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-    var registerMenu = document.getElementById("register-menu");
-    registerMenu.style.display = registerMenu.style.display === "none" ? "block" : "none"; // Mostrar/ocultar el menú de registro
-}
-function showForm(formId) {
-    hideAllForms(); // Ocultar todos los formularios
-    document.getElementById(formId).style.display = "block"; // Mostrar el formulario seleccionado
-}
-function hideAllForms() {
-    var forms = document.getElementsByClassName("form-content");
-    for (var i = 0; i < forms.length; i++) {
-        forms[i].style.display = "none"; // Ocultar todos los formularios
-    }
-    document.getElementById("dashboard-content").style.display = "none"; // Ocultar el contenido del dashboard
-}
-</script>
 
 {% endblock %}
-
-
-    
-

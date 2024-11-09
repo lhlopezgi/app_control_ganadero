@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Finca(models.Model):
     nombre = models.CharField(max_length=100)
     hectareas = models.DecimalField(max_digits=6, decimal_places=2)
-    ciudad = models.CharField(max_length=100, default="Desconocido")
+    ciudad = models.CharField(max_length=100)
     asnm = models.IntegerField(default=0)
     temperatura = models.DecimalField(max_digits=4, decimal_places=1)
     capacidad = models.IntegerField(default=0)

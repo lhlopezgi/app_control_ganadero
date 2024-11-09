@@ -217,3 +217,38 @@ body {
 .info-button:hover {
     background-color: #d7da4e; /* Color más oscuro al pasar el ratón */
 }
+
+
+
+        /* Estilos para el mensaje de error */
+
+        .messages {
+            min-height: 50px; /* Espacio reservado para el mensaje */
+            margin-bottom: 10px; /* Margen para separación del contenedor de login */
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+            transition: opacity 3s ease;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Animación de desvanecimiento */
+        .fade-out {
+            animation: fadeOut 3s forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+   
+       
+        
