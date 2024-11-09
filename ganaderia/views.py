@@ -23,10 +23,9 @@ from django.db.models import Sum, Count
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-
 
 
 # Vista de inicio de sesión
@@ -148,25 +147,42 @@ def ternero_create(request):
     
     return render(request, 'ganaderia/dashboard.html', {'form': form})
 
+
+
 @login_required
 def dashboard(request):
-    # Obtener la cantidad de animales en producción
-    animales_en_produccion = Animal.objects.filter(en_produccion=True).count()
-    # Obtener la cantidad de leche producida en los últimos 30 días
-    leche_ultimos_30_dias = Leche.objects.filter(fecha__gte=datetime.now()-timedelta(days=30)).aggregate(Sum('cantidad'))['cantidad__sum'] or 0
-    # Obtener la cantidad de leche producida hoy
-    leche_hoy = Leche.objects.filter(fecha=datetime.now().date()).aggregate(Sum('cantidad'))['cantidad__sum'] or 0
-    # Obtener la cantidad de terneros machos y hembras
-    terneros_machos = Animal.objects.filter(genero='macho', en_crecimiento=True).count()
-    terneros_hembras = Animal.objects.filter(genero='hembra', en_crecimiento=True).count()
+    # Obtén la fecha de hoy
+    now = date.today()
+
+    # Obtener la cantidad de vacas que dieron leche hoy
+    vacas_que_dieron_leche_hoy = ProduccionLeche.objects.filter(fecha=now).values('vaca').distinct().count()
+
+    # Calcular la cantidad de leche producida en los últimos 30 días
+    leche_ultimos_30_dias = ProduccionLeche.objects.filter(fecha__gte=now - timedelta(days=30)).aggregate(Sum('cantidad_leche'))['cantidad_leche__sum'] or 0
+
+    # Calcular la cantidad de leche producida hoy
+    leche_hoy = ProduccionLeche.objects.filter(fecha=now).aggregate(Sum('cantidad_leche'))['cantidad_leche__sum'] or 0
+
+    # Obtener la cantidad de terneros machos de la tabla Ternero
+    terneros_machos = Ternero.objects.filter(sexo='Macho').count()
+    print(f"Terneros machos: {terneros_machos}")
+    # Obtener la cantidad de terneros hembras de la tabla Ternero
+    terneros_hembras = Ternero.objects.filter(sexo='Hembra').count()
+    print(f"Terneros hembras: {terneros_hembras}")
+    
+
+    # Agregar los datos al contexto para renderizar
     context = {
-        'animales_en_produccion': animales_en_produccion,
+        'animales_en_produccion': vacas_que_dieron_leche_hoy,
         'leche_ultimos_30_dias': leche_ultimos_30_dias,
         'leche_hoy': leche_hoy,
         'terneros_machos': terneros_machos,
         'terneros_hembras': terneros_hembras,
     }
+
     return render(request, 'ganaderia/dashboard.html', context)
+
+
 @login_required
 @permission_required('ganaderia.add_produccionleche', raise_exception=True)
 def produccion_leche_create(request):

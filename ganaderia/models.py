@@ -15,13 +15,18 @@ class Vaca(models.Model):
     raza = models.CharField(max_length=50)
     color = models.CharField(max_length=50)
     observaciones = models.TextField(blank=True, null=True)
+    es_productiva = models.BooleanField(default=True)  # Para saber si está en producción
     def __str__(self):
         return f"{self.raza} ({self.id})"
 class Ternero(models.Model):
+    SEXO_CHOICES = [
+        ('Macho', 'Macho'),
+        ('Hembra', 'Hembra'),
+    ]
     fecha_nacimiento = models.DateField()
     raza = models.CharField(max_length=50)
     color = models.CharField(max_length=50)
-    sexo = models.CharField(max_length=10, choices=(('Macho', 'Macho'), ('Hembra', 'Hembra')))
+    sexo = models.CharField(max_length=6, choices=SEXO_CHOICES)
     observaciones = models.TextField()
     def __str__(self):
         return f"{self.raza} ({self.sexo})"
@@ -31,7 +36,7 @@ class ProduccionLeche(models.Model):
     cantidad_leche = models.DecimalField(max_digits=5, decimal_places=2)
     observacion = models.TextField(blank=True, null=True)
     def __str__(self):
-        return f"Leche {self.fecha} - Vaca {self.vaca.id}"
+        return f"Leche producida: {self.cantidad} litros"
 class PesoTernero(models.Model):
     ternero = models.ForeignKey(Ternero, on_delete=models.CASCADE)
     fecha = models.DateField()
@@ -51,6 +56,8 @@ class Animal(models.Model):
     en_produccion = models.BooleanField(default=False)
     genero = models.CharField(max_length=6, choices=[('macho', 'Macho'), ('hembra', 'Hembra')])
     en_crecimiento = models.BooleanField(default=False)
+    vaca = models.ForeignKey(Vaca, on_delete=models.CASCADE, related_name='animales', default=2)  # Aquí usas el ID de la vaca
+
 class Leche(models.Model):
     cantidad = models.FloatField()
     fecha = models.DateField(auto_now_add=True)
