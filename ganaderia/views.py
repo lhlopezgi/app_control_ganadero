@@ -164,12 +164,10 @@ def dashboard(request):
     leche_hoy = ProduccionLeche.objects.filter(fecha=now).aggregate(Sum('cantidad_leche'))['cantidad_leche__sum'] or 0
 
     # Obtener la cantidad de terneros machos de la tabla Ternero
-    terneros_machos = Ternero.objects.filter(sexo='Macho').count()
-    print(f"Terneros machos: {terneros_machos}")
+    terneros_machos = Ternero.objects.filter(sexo='Macho').count() or 0
+
     # Obtener la cantidad de terneros hembras de la tabla Ternero
-    terneros_hembras = Ternero.objects.filter(sexo='Hembra').count()
-    print(f"Terneros hembras: {terneros_hembras}")
-    
+    terneros_hembras = Ternero.objects.filter(sexo='Hembra').count() or 0
 
     # Agregar los datos al contexto para renderizar
     context = {
@@ -181,6 +179,7 @@ def dashboard(request):
     }
 
     return render(request, 'ganaderia/dashboard.html', context)
+
 
 
 @login_required

@@ -122,29 +122,60 @@ function handleFormSubmit(formId, url, event) {
 
 
 
-// Selecciona todos los mensajes de alerta para aplicar el efecto de desvanecimiento
-document.addEventListener('DOMContentLoaded', function () {
-    const messages = document.querySelectorAll('.fade-message');
-    messages.forEach((message) => {
-        // Espera 3 segundos y luego aplica la clase 'fade-out'
-        setTimeout(() => {
-            message.classList.add('fade-out');
-        }, 2000);
 
-        // Elimina el mensaje del DOM cuando la animación finalice
-        message.addEventListener('animationend', () => {
-            message.remove();
-        });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Se inyectan los valores de Django aquí
+    const lecheHoy = document.getElementById('leche-hoy').textContent || 0;
+    const lecheUltimos30Dias = document.getElementById('leche-ultimos-30-dias').textContent || 0;
+    const ternerosMachos = parseInt(document.getElementById('terneros-machos').textContent) || 0;
+    const ternerosHembras = parseInt(document.getElementById('terneros-hembras').textContent) || 0;
+
+    // Gráfico de barras para la leche producida
+    const ctxLeche = document.getElementById('leche-chart').getContext('2d');
+    const lecheChart = new Chart(ctxLeche, {
+        type: 'bar',
+        data: {
+            labels: ['Leche Producida Hoy', 'Leche Últimos 30 Días'],
+            datasets: [{
+                label: 'Litros de Leche',
+                data: [lecheHoy, lecheUltimos30Dias],
+                backgroundColor: '#4e73df',
+                borderColor: '#2e59d9',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Gráfico Donut para los Terneros
+    const ctxTerneros = document.getElementById('donut-chart').getContext('2d');
+    const donutChart = new Chart(ctxTerneros, {
+        type: 'doughnut',
+        data: {
+            labels: ['Machos', 'Hembras'],
+            datasets: [{
+                label: 'Sexo de los Terneros',
+                data: [ternerosMachos, ternerosHembras],
+                backgroundColor: ['#1cc88a', '#f6c23e'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
     });
 });
-
-
-function toggleRegisterMenu(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-    var menu = document.getElementById('register-menu');
-    if (menu) {
-        // Alternar la visibilidad del submenú
-        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-    }
-}
-

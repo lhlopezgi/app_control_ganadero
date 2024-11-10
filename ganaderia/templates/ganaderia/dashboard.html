@@ -45,33 +45,63 @@
             <!-- Dashboard Content -->
             <div id="dashboard-content" class="tabcontent" style="display: block;">
                 <h2>Información General</h2>
-            
+
                 <!-- Contenedor de la cuadrícula -->
-                <div class="info-grid">
-                    <div class="info-card">
+                <!-- Fila 1: Tarjetas de Leche -->
+                <div class="info-cards">
+                    <div class="info-card leche-card">
+                        <h3>Leche Últimos 30 Días</h3>
+                        <p id="leche-ultimos-30-dias">{{ leche_ultimos_30_dias }} Litros</p>
+                    </div>
+                    <div class="info-card leche-card">
+                        <h3>Leche Producida Hoy</h3>
+                        <p id="leche-hoy">{{ leche_hoy }} Litros</p>
+                    </div>
+                </div>
+
+                <!-- Fila 2: Animales en Producción y Terneros -->
+                <div class="info-cards-second-row">
+                    <div class="info-card second-row-card">
                         <h3>Animales en Producción</h3>
                         <p>{{ animales_en_produccion }}</p>
                     </div>
-                    <div class="info-card">
-                        <h3>Leche Últimos 30 Días</h3>
-                        <p>{{ leche_ultimos_30_dias }} L</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Leche Producida Hoy</h3>
-                        <p>{{ leche_hoy }} L</p>
-                    </div>
-                    <div class="info-card">
+                    <div class="info-card second-row-card">
                         <h3>Terneros Machos</h3>
-                        <p>{{ terneros_machos }}</p>
+                        <p id="terneros-machos">{{ terneros_machos }}</p>
                     </div>
-                    <div class="info-card">
+                    <div class="info-card second-row-card">
                         <h3>Terneros Hembras</h3>
-                        <p>{{ terneros_hembras }}</p>
+                        <p id="terneros-hembras">{{ terneros_hembras }}</p>
                     </div>
                 </div>
-            
-                <!-- Gráfico de Leche Producción -->
-                <canvas id="lecheProduccionChart" width="400" height="200"></canvas>
+
+                <!-- Fila 3: Gráficos -->
+                <div class="charts">
+                    <!-- Gráfico de leche producida -->
+                    <div class="chart-container">
+                        <h3>Leche Producción</h3>
+                        <canvas id="leche-chart"></canvas> <!-- Este ID debe coincidir con el usado en JavaScript -->
+                    </div>
+
+                    <!-- Gráfico Donut para los Terneros -->
+                    <div class="chart-container">
+                        <h3>Sexo de los Terneros</h3>
+                        <canvas id="donut-chart"></canvas> <!-- Este ID debe coincidir con el usado en JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+
+                    
+                </div>
+                <div id="leche-data" 
+                data-leche-ultimos-30="{{ leche_ultimos_30_dias|default:0 }}" 
+                data-leche-hoy="{{ leche_hoy|default:0 }}">
+           </div>
+           
+           <div id="terneros-data" 
+                data-terneros-machos="{{ terneros_machos|default:0 }}" 
+                data-terneros-hembras="{{ terneros_hembras|default:0 }}">
             </div>
             
             
@@ -232,9 +262,11 @@
     </form>
     <div id="message-container" style="display:none;"></div>
 </div>
-
-
-     
+   
 </body>
 
+
+
 {% endblock %}
+
+
