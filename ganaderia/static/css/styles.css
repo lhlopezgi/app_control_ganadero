@@ -1,7 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    background-color: #f9f6f4;
+    color: #333;
+    background: none; /* Eliminar la imagen de fondo para otras páginas */
 }
 .top-bar {
     background-color: rgb(255, 255, 255); /* Color de la franja */
@@ -17,22 +18,49 @@ body {
     font-weight: bold;
     padding: 20px;
     text-align: center;
+    margin-left: 350px;
+    margin-right: 20px; /* Agrega margen a la derecha */
+    border-radius: 10px; /* Redondea los bordes del encabezado */
 }
-/* Contenedor del dashboard */
+/* Contenedor principal del dashboard y los formularios */
+.dashboard-container,
+.form-content {
+    margin-left: 550px; /* Espacio para el sidebar */
+    width: calc(100% - 550px); /* Usa el espacio restante */
+    box-sizing: border-box;
+    margin: 0;
+    margin: 100px auto;   
+}
 .dashboard-container {
-    display: flex; /* Usar flexbox para organizar el menú y el contenido */
+    margin-top: 0px ; /* Ajusta este valor según lo necesites */
 }
+/* Para el contenedor de formularios */
+.form-content {
+    margin-left: 300px; /* Mover formulario hacia la derecha, igual que el contenido general */
+    width: calc(100% - 250px); /* Deja espacio para el sidebar */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1.5);
+    border-radius: 8px;
+    background-color: #c09d29;
+    margin-top: -100px !important ; 
+}
+/* El contenido principal también debe moverse correctamente al lado del sidebar */
+.content {
+    margin-left: 250px; /* Asegura que no se sobreponga con el sidebar */
+    width: calc(100% - 250px); /* Asegura que ocupe el resto del espacio */
+    padding: 0px;
+}
+/* Mantenemos el Sidebar fijo a la izquierda */
+/* Sidebar fijo */
 .sidebar {
-    background-color: #065308;
+    background-color: #065308; /* Fondo verde para todo el menú */
+    padding: 20px; /* Espaciado interno */
+    position: fixed; /* Fijar el menú en el lado izquierdo */
+    top: 0;
+    bottom: 0;
+    left: 0;
     width: 250px;
-    min-height: 100vh;
-    padding: 5px;
-    border-radius: 10px;
-    color: #ecf0f1;
-    font-family: Arial, sans-serif;
-    box-shadow: 1px 0 4px rgba(204, 5, 5, 0.1);
-    position: relative; /* Asegúrate de que el sidebar esté en un contexto posicional */
-    z-index: 10; 
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
 }
 /* Estilo para los enlaces en el menú de la barra lateral */
 .sidebar-menu a {
@@ -50,6 +78,7 @@ body {
 .sidebar-menu {
     padding: 0; /* Elimina padding del contenedor del menú */
     margin: 0; /* Elimina margen del contenedor del menú */
+    margin-top: 20px;
 }
 .sidebar-menu li {
     list-style: none;
@@ -83,25 +112,15 @@ body {
     margin-bottom: 20px; /* Espacio debajo del título para separarlo de los elementos de menú */
     color: #ecf0f1; /* Asegúrate de que el color sea el mismo que el de los enlaces */
 }
-.sidebar {
-    min-width: 250px;
-    max-width: fit-content; /* Ajusta dinámicamente el ancho según el texto */
-}
-/*.dashboard-page {
-    background-image: url("../img/imagen4vaca.jpg"); /* Ruta de la imagen de fondo 
-    background-size: cover; /* Ajusta la imagen para cubrir todo el fondo 
-    background-repeat: no-repeat;
-    background-position: center;
-}*/
-/* Estilos de la página de inicio de sesión */
+/* Ajuste en la parte del login, para que se vea alineado */
 .login-container {
     max-width: 400px;
     margin: 50px auto;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.6); /* Fondo blanco semi-transparente */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 .login-container h2 {
@@ -119,17 +138,18 @@ body {
     border: 1px solid #2e8a31;
     border-radius: 4px;
 }
+/* Usando !important para asegurarse de que el estilo se aplique */
 .btn-primary {
-    background-color: #065308;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #053d06 !important;
+    color: #fff !important;
+    padding: 10px 20px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
 }
 .btn-primary:hover {
-    background-color: #053d06;
+    background-color: #18751a !important;
 }
 .register-link {
     margin-top: 10px;
@@ -147,8 +167,27 @@ body.login-page {
     background-repeat: no-repeat; /* Evita que se repita la imagen */
     background-position: center 25%;
 }
-body {
-    background: none; /* Eliminar la imagen de fondo para otras páginas */
+/* Franja blanca encima del encabezado verde */
+.white-stripe {
+    background-color: white;  /* Color blanco para la franja */
+    width: 100%;               /* Ocupa todo el ancho de la pantalla */
+    height: 10px;              /* Altura de la franja blanca, ajusta según necesites */
+    position: absolute;        /* Asegura que la franja se quede fija en la parte superior */
+    top: 0;                    /* Coloca la franja blanca en la parte superior */
+    left: 0;                   /* Alineado a la izquierda */
+    z-index: 1000;             /* Asegura que se quede sobre otros elementos si es necesario */
+}
+/* Estilo para el encabezado verde */
+body.login-page .login-header {
+    position: absolute;        /* O "fixed" si quieres que quede fijo al hacer scroll */
+    top: 30px;                 /* Deja un espacio de 10px desde la franja blanca */
+    left: 0;                   /* Alineado a la izquierda */
+    width: 100%;               /* Ocupa todo el ancho de la pantalla */
+    background-color: #065308; /* Color verde del encabezado de inicio */
+    color: white;              /* Color del texto */
+    padding: 20px;             /* Ajusta el espacio interior */
+    text-align: center;        /* Alineación del texto */
+    z-index: 999;              /* Asegúrate de que esté por debajo de la franja blanca */
 }
 .login-container {
     max-width: 400px;
@@ -188,14 +227,13 @@ body {
     display: none; /* Ocultar el submenú por defecto */
     padding-left: 20px; /* Indentar el submenú */
     background-color: #b69014; /* Cambiar al color de fondo deseado */
-    border-radius: 5px; /* Bordes redondeados para el submenú */
-    
+    border-radius: 5px; /* Bordes redondeados para el submenú */   
 }
 .info-container {
     background-color: #f8f9fa; /* Fondo claro para el contenedor */
     padding: 20px;
     border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Sombra sutil para dar profundidad */
     margin-top: 20px; /* Espaciado superior */
 }
 .info-text {
@@ -218,47 +256,9 @@ body {
 .info-button:hover {
     background-color: #d7da4e; /* Color más oscuro al pasar el ratón */
 }
-
-
-
-        /* Estilos para el mensaje de error */
-
-        .messages {
-            min-height: 50px; /* Espacio reservado para el mensaje */
-            margin-bottom: 10px; /* Margen para separación del contenedor de login */
-        }
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-weight: bold;
-            text-align: center;
-            transition: opacity 3s ease;
-        }
         
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
 
-        /* Animación de desvanecimiento */
-        .fade-out {
-            animation: fadeOut 3s forwards;
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-   
        
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
         
         .info-card {
             background: #f8faf8;
@@ -268,144 +268,182 @@ body {
             text-align: center;
             color: #720a0a;
         }
-        
         .info-card h3 {
             margin: 10;
             font-size: 1.1em;
             color: #007bff;
         }
-        
         .info-card p {
             font-size: 1.5em;
             font-weight: bold;
-        }
-        
-
-
-
-        
+        } 
        /* Estilos Generales */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f6f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-.dashboard-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-}
-
-h2 {
-    text-align: center;
-    color: #00030c;
-    margin-bottom: 20px;
-}
-
+       h2 {
+        text-align: center ;          /* Centra el texto horizontalmente */
+        color: #065308;              /* Color verde para el texto */
+        margin-top: 30px;            /* Aumenta el margen superior para separar el título de las tarjetas */
+        margin-bottom: 20px ;         /* Agrega un margen inferior para un mejor espaciado con las tarjetas */
+    }
 /* Tarjetas de Información */
 .info-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas por defecto */
-    gap: 10px;
-    margin-bottom: 10px;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas para distribuir tarjetas */
+    gap: 15px;
 }
-
+/* Tarjetas individuales */
 .info-card {
     background-color: #7d8a0c;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 2);
-    padding: 5px;
-    text-align: center;
-    color: #4e73df;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 50px; /* Establece una altura mínima para todas las tarjetas */
-}
-
-.info-card p {
-    font-size: 1.7rem;
-    color: #2c2b5a;
-    margin: 0;
-}
-
-.info-card h3 {
-    font-size: 1.4rem;
-    margin-top: 10px;
     color: #f5f5f1;
-    font-weight: bold;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 220%;
+    max-height: 90px;
 }
-
-/* Fila 1 - Tarjetas de Leche, más anchas */
+.info-card p {
+    font-size: 1.5rem;
+    color: #2c2b5a;   
+}
+/* Ajuste de texto en las tarjetas */
+.info-card h3 {
+    font-size: 1.2rem;
+    color: #f5f5f1;
+}
+/* Tarjetas de la fila 1 */
 .info-card.leche-card {
-    grid-column: span 2; /* Esto hace que estas dos tarjetas ocupen dos columnas */
+    grid-column: span 2; /* Ocupa dos columnas */
 }
-
-/* Fila 2 - Tarjetas Animales en Producción y Terneros */
+/* Información de las tarjetas en la segunda fila */
 .info-cards-second-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Tres columnas */
-    gap: 25px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual tamaño */
+    gap: 60px; /* Espacio uniforme entre las tarjetas */
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 220%;
+    box-sizing: border-box;   
 }
-
-/* Tarjetas en la fila 2, tamaño estándar */
+/* Tarjetas de la segunda fila */
 .info-card.second-row-card {
-    min-height: 150px; /* Mantiene la altura uniforme */
+    background-color: #7d8a0c;
+    padding: 20px;
+    border-radius: 8px;
+    color: #f5f5f1;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    min-height: 100px;
+    max-height: 70px;
+    max-width: 100%; /* Limita el ancho al contenedor */
+    box-sizing: border-box; /* Evita que el padding expanda el ancho */
 }
-
-/* Contenedor de Gráficos */
-
-
 .charts {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(100px, 1fr)); /* Esto asegura que cada gráfico tenga al menos 300px de ancho */
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Reducido el gap a 10px */
+    width: 220%;; /* Asegura que ocupe el 100% del ancho disponible */
+    box-sizing: border-box; /* Asegura que el padding y bordes no afecten el ancho total */
+    margin: 0 auto; /* Centra el contenedor si es necesario */
 }
-
-
+.chart-container {
+    background-color: #ecf0c5;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    flex: 1 1 48%; /* Ocupa aproximadamente el 48% del ancho */
+    box-sizing: border-box; /* Esto asegura que el padding no afecte el ancho */
+    min-width: 200px; /* Asegura que no se reduzca demasiado el ancho de los contenedores */
+    width: 100%; /* O el ancho deseado, si es necesario */
+    max-width: 600px; /* Esto asegura que el gráfico no ocupe más de 600px, puedes ajustar este valor */
+    margin: 0 auto; /* Esto centra el contenedor */
+    padding: 10px;  /* Espacio alrededor del gráfico */
+}
 .chart h3 {
     text-align: center;
     color: #770505;
     margin-bottom: 15px;
 }
-
-
-
-
-/* Estilo General para los Contenedores de Gráficos */
-.chart-container {
-    background-color: #ecf0c5;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 1.4);
-    padding: 5px;
-    margin-top: 5px;  /* Añadido margen superior para separar de las tarjetas */
-    text-align: center;
-    visibility: visible;  /* Asegúrate de que el contenedor sea visible */
-    display: block;  /* Asegúrate de que el contenedor esté visible en la página */
-}
-
 .chart-container h3 {
-    color: #000c08; /* Color para los títulos de los gráficos */
-    font-size: 1.5rem;
-    margin-bottom: 50px;
+    color: #0c0400;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
-.chart-container {
-    max-width: 100%;
-    margin: 5px 0;
-}
-
+/* Ajuste del canvas para gráficos */
 canvas {
     max-width: 100%;
     height: auto;
-    display: block;
     margin: 0 auto;
 }
 #leche-chart {
     width: 100%;
     height: 400px; /* Ajusta este valor según sea necesario */
 }
+/* Formularios */
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+form button:hover {
+    background-color: #45a049;
+}
+/* Estilos básicos para el toast */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,6 +5,7 @@
 <body class="dashboard-page">
     <div class="row">
         <!-- Sidebar -->
+       
         <div class="sidebar">
             <h2 class="sidebar-title">Menú</h2>
             <ul class="sidebar-menu">
@@ -33,18 +34,27 @@
         </div>
         
         <!-- Contenido principal -->
+
+        <div class="dashboard-container">
         <div class="col-md-9">
             {% if messages %}
-                <ul class="alert-messages">
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            <div id="toast-container">
+                {% for message in messages %}
+                    <script>
+                        // Determinar el tipo de mensaje
+                        var messageType = "{{ message.tags }}";  // success, error, warning, etc.
+        
+                        // Llamar a la función JavaScript para mostrar el mensaje
+                        showToast("{{ message|escapejs }}", messageType);
+                    </script>
+                {% endfor %}
+            </div>
+        {% endif %}
+
             
             <!-- Dashboard Content -->
             <div id="dashboard-content" class="tabcontent" style="display: block;">
-                <h2>Información General</h2>
+                <h2></h2>
 
                 <!-- Contenedor de la cuadrícula -->
                 <!-- Fila 1: Tarjetas de Leche -->
@@ -90,7 +100,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
 
                     
                 </div>
@@ -104,7 +114,40 @@
                 data-terneros-hembras="{{ terneros_hembras|default:0 }}">
             </div>
             
-            
+            <style>
+                /* Estilo básico del toast */
+                    .toast {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background-color: #4CAF50; /* Color de fondo para el éxito (verde) */
+                        color: white;
+                        padding: 15px;
+                        border-radius: 5px;
+                        z-index: 9999;
+                        opacity: 1;
+                        visibility: visible;
+                        transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+                        max-width: 300px;
+                        width: auto;
+                    }
+
+                    /* Estilo para los mensajes de error */
+                    .toast-error {
+                        background-color: #f44336 !important; /* Color de fondo para error (rojo) */
+                    }
+
+                    /* Estilo para ocultar el mensaje después de desvanecerse */
+                    .toast-hide {
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+                    }
+
+
+
+
+            </style>
             <!-- Formularios -->
             <!-- Formulario de Registrar Nueva Finca -->
             <div class="form-content" id="finca_create" style="display:none;">
@@ -265,7 +308,7 @@
    
 </body>
 
-
+<div id="toast-container"></div>
 
 {% endblock %}
 

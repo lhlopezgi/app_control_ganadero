@@ -3,17 +3,57 @@
 
 {% block content %}
 <body class="login-page">
+    <div class="white-stripe"></div>
 
+    <header class="login-header">
+        <h1 class="text-center">Mi Aplicación Ganadera</h1>
+    </header>
+   
     {% if messages %}
-    <div class="messages" id="message-container">
+    <div id="toast-container">
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} fade-message">
-            {{ message }}
-        </div>
+            <script>
+                console.log("Mensaje: {{ message }} | Tipo: {{ message.tags }}");  // Depuración en la consola
+                var messageType = "{{ message.tags }}";  // success, error, etc.
+                showToast("{{ message|escapejs }}", messageType);
+            </script>
         {% endfor %}
     </div>
-    {% endif %}
+{% endif %}
+<style>
+    /* Estilo básico del toast */
+/* Estilo básico del toast */
+/* Estilo básico del toast */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50; /* Color de fondo para el éxito (verde) */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+    max-width: 300px;
+    width: auto;
+}
 
+/* Estilo para los mensajes de error */
+.toast-error {
+    background-color: #f44336 !important; /* Color de fondo para error (rojo) */
+}
+
+/* Estilo para ocultar el mensaje después de desvanecerse */
+.toast-hide {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+
+</style>
     <div class="login-container">
         <h2>Inicio de Sesión</h2>
         <form method="post" action="{% url 'login' %}">
@@ -31,25 +71,7 @@
         <p class="register-link">¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
     </div>
 
-    
-
-    <script>
-        // Selecciona todos los mensajes de alerta para aplicar el efecto de desvanecimiento
-        document.addEventListener('DOMContentLoaded', function () {
-            const messages = document.querySelectorAll('.fade-message');
-            messages.forEach((message) => {
-                // Espera 3 segundos y luego aplica la clase 'fade-out'
-                setTimeout(() => {
-                    message.classList.add('fade-out');
-                }, 2000);
-
-                // Elimina el mensaje del DOM cuando la animación finalice
-                message.addEventListener('animationend', () => {
-                    message.remove();
-                });
-            });
-        });
-    </script>
-
-</body>
+   </body>
+   <div id="toast-container"></div>
+  
 {% endblock %}

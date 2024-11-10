@@ -106,13 +106,12 @@ function handleFormSubmit(formId, url, event) {
         
         // Mostrar mensaje de éxito o errores
         if (data.message) {
-            messageContainer.innerHTML = `<div>${data.message}</div>`;
-            messageContainer.style.display = 'block';
+            showToast(data.message, 'success');
         }
         if (data.errors) {
-            for (const error of data.errors) {
-                messageContainer.innerHTML += `<div>${error}</div>`;
-            }
+            data.errors.forEach(error => {
+                showToast(error, 'error');
+            });
         }
     })
     .catch(error => {
@@ -180,3 +179,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+function showToast(message, type) {
+    var toast = document.createElement("div");
+    toast.classList.add("toast");
+
+    // Asegúrate de que se aplica la clase .toast-error si el tipo es "error"
+    if (type === "error") {
+        toast.classList.add("toast-error");  // Clase con fondo rojo
+    }
+
+    toast.innerText = message;
+
+    // Añadir el toast al body
+    document.body.appendChild(toast);
+
+    // Eliminar el toast después de unos segundos
+    setTimeout(function() {
+        toast.classList.add("toast-hide");
+        setTimeout(function() {
+            toast.remove();
+        }, 500);
+    }, 3000);  // Desaparece después de 3 segundos
+}

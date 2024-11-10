@@ -178,6 +178,10 @@ def dashboard(request):
         'terneros_hembras': terneros_hembras,
     }
 
+    
+
+    
+
     return render(request, 'ganaderia/dashboard.html', context)
 
 
@@ -203,6 +207,7 @@ def produccion_leche_create(request):
 @login_required
 @permission_required('ganaderia.add_pesovaca', raise_exception=True)
 def peso_vaca_create(request):
+    dashboard_data = obtener_datos_dashboard() # type: ignore
     if request.method == "POST":
         form = PesoVacaForm(request.POST)
         if form.is_valid():
@@ -210,7 +215,8 @@ def peso_vaca_create(request):
             messages.success(request, "Peso de la vaca registrado correctamente.")
             return redirect('home')
         else:
-            print("Errores del formulario:", form.errors)  # Depurar los errores
+            
+            messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = PesoVacaForm()
 
@@ -227,7 +233,8 @@ def peso_ternero_create(request):
             messages.success(request, "Peso del ternero registrado correctamente.")
             return redirect('home')  # O cualquier otra URL a la que desees redirigir después del éxito
         else:
-            print("Errores del formulario:", form.errors)  # Depurar los errores
+            
+            messages.error(request, "Por favor corrige los errores en el formulario.")
     else:
         form = PesoTerneroForm()
 
@@ -241,6 +248,8 @@ def vacas(request):
     return render(request, 'ganaderia/vacas.html')
 def terneros(request):
     return render(request, 'ganaderia/terneros.html')
+
+
 
 
 
