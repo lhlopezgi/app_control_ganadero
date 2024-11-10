@@ -127,8 +127,9 @@ function handleFormSubmit(formId, url, event) {
 
 document.addEventListener("DOMContentLoaded", function () {
     // Se inyectan los valores de Django aquí
-    const lecheHoy = document.getElementById('leche-hoy').textContent || 0;
-    const lecheUltimos30Dias = document.getElementById('leche-ultimos-30-dias').textContent || 0;
+    const lecheHoy = parseFloat(document.getElementById('leche-hoy').textContent) || 0;
+    const lecheUltimos30Dias = parseFloat(document.getElementById('leche-ultimos-30-dias').textContent) || 0;
+
     const ternerosMachos = parseInt(document.getElementById('terneros-machos').textContent) || 0;
     const ternerosHembras = parseInt(document.getElementById('terneros-hembras').textContent) || 0;
 
@@ -141,8 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
             datasets: [{
                 label: 'Litros de Leche',
                 data: [lecheHoy, lecheUltimos30Dias],
-                backgroundColor: '#4e73df',
-                borderColor: '#2e59d9',
+                backgroundColor: '#c76565',
+                borderColor: '#6d0a0a',
                 borderWidth: 1
             }]
         },
@@ -165,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
             datasets: [{
                 label: 'Sexo de los Terneros',
                 data: [ternerosMachos, ternerosHembras],
-                backgroundColor: ['#1cc88a', '#f6c23e'],
+                backgroundColor: ['#076945', '#c59417'],
                 hoverOffset: 4
             }]
         },

@@ -405,3 +405,7 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+#leche-chart {
+    width: 100%;
+    height: 400px; /* Ajusta este valor según sea necesario */
+}
