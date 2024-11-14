@@ -3,14 +3,25 @@ function hideAllForms() {
     for (var i = 0; i < forms.length; i++) {
         forms[i].style.display = "none"; // Ocultar todos los formularios
     }
-    document.getElementById("dashboard-content").style.display = "none"; // Ocultar el contenido del dashboard
+
+    // Ocultar el contenido del dashboard
+    document.getElementById("dashboard-content").style.display = "none"; 
+
+    // Limpiar las tarjetas de vacas o terneros (cuando se hace clic en otros enlaces)
+    document.getElementById('cards-container').innerHTML = ''; 
 }
 
-function showDashboard(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-    hideAllForms(); // Ocultar todos los formularios
-    document.getElementById("dashboard-content").style.display = "block"; // Mostrar el contenido del dashboard
+
+// Función para mostrar el dashboard y ocultar las tarjetas y formularios
+function showDashboard() {
+    // Ocultar cualquier formulario o tarjeta
+    hideAllForms(); 
+
+    // Mostrar el dashboard
+    document.getElementById("dashboard-content").style.display = "block";
 }
+
+
 
 // Muestra el formulario específico
 function showForm(formId) {
@@ -64,10 +75,12 @@ document.querySelectorAll('.sidebar-menu a').forEach(link => {
         } else if (target === 'inventory-menu') {
             toggleMenu(event, 'inventory-menu'); // Alternar el submenú de inventario
         } else {
-            showForm(target); // Mostrar el formulario correspondiente
+            // Cuando se hace clic en otro enlace, volvemos al dashboard y ocultamos las tarjetas
+            showDashboard(); // Volver al dashboard
         }
     });
 });
+
 
 // Obtener el token CSRF desde las cookies
 function getCookie(name) {
@@ -203,3 +216,128 @@ function showToast(message, type) {
         }, 500);
     }, 3000);  // Desaparece después de 3 segundos
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// Datos de las vacas y terneros (mantenemos los mismos que ya habías definido)
+const vacas = [
+    {
+      nombre: "Vaca 1",
+      edad: "5 años",
+      raza: "Holstein",
+      produccionPromedio: "25 L/día",
+      color: "Blanco y negro",
+      imagen: "control_ganadero/static/img/imagen1vaca.jpg"
+    },
+    {
+      nombre: "Vaca 2",
+      edad: "4 años",
+      raza: "Jersey",
+      produccionPromedio: "18 L/día",
+      color: "Marrón claro",
+      imagen: "control_ganadero/static/img/imagen2vaca.jpg"
+    },
+    // Añadir más vacas aquí...
+  ];
+  
+  const terneros = [
+    {
+      nombre: "Ternero 1",
+      edad: "6 meses",
+      raza: "Charolais",
+      produccionPromedio: "N/A",
+      color: "Blanco",
+      imagen: "control_ganadero/static/img/imagen3vaca.jpg"
+    },
+    {
+      nombre: "Ternero 2",
+      edad: "4 meses",
+      raza: "Limousin",
+      produccionPromedio: "N/A",
+      color: "Marrón",
+      imagen: "control_ganadero/static/img/imagen4vaca.jpg"
+    },
+    // Añadir más terneros aquí...
+  ];
+  
+  // Función para generar las tarjetas de vacas o terneros
+function generarTarjetas(animales) {
+    const container = document.getElementById('cards-container');
+    container.innerHTML = ''; // Limpiar las tarjetas previas
+
+    // Mostrar solo las primeras 4 tarjetas
+    animales.slice(0, 4).forEach(animal => { 
+        const card = document.createElement('div');
+        card.classList.add('card');
+        
+        card.innerHTML = `
+            <img src="${animal.imagen}" alt="${animal.nombre}">
+            <div class="card-content">
+                <h3>${animal.nombre}</h3>
+                <p><strong>Edad:</strong> ${animal.edad}</p>
+                <p><strong>Raza:</strong> ${animal.raza}</p>
+                <p><strong>Producción promedio:</strong> ${animal.produccionPromedio}</p>
+                <p><strong>Color:</strong> ${animal.color}</p>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+}
+
+function showInfo(type) {
+    // Primero ocultar cualquier formulario activo
+    hideAllForms();
+
+    // Si el tipo es "vacas", mostrar las tarjetas de vacas
+    if (type === "vacas") {
+        const cardsContainer = document.getElementById('cards-container');
+        cardsContainer.innerHTML = ''; // Limpiar las tarjetas previas
+
+        // Mostrar las tarjetas de vacas
+        for (let i = 0; i < 4; i++) {
+            const card = `
+                <div class="card">
+                    <img src="path/to/vaca${i+1}.jpg" alt="Vaca ${i+1}" class="card-image">
+                    <div class="card-details">
+                        <p>Edad: 5 años</p>
+                        <p>Raza: Holstein</p>
+                        <p>Producción Promedio: 20 L/día</p>
+                        <p>Color: Blanco y Negro</p>
+                    </div>
+                </div>
+            `;
+            cardsContainer.innerHTML += card;
+        }
+
+    } else if (type === "terneros") {
+        const cardsContainer = document.getElementById('cards-container');
+        cardsContainer.innerHTML = ''; // Limpiar las tarjetas previas
+
+        // Mostrar las tarjetas de terneros
+        for (let i = 0; i < 4; i++) {
+            const card = `
+                <div class="card">
+                    <img src="path/to/ternero${i+1}.jpg" alt="Ternero ${i+1}" class="card-image">
+                    <div class="card-details">
+                        <p>Edad: 6 meses</p>
+                        <p>Raza: Jersey</p>
+                        <p>Producción Promedio: 12 L/día</p>
+                        <p>Color: Marrón Claro</p>
+                    </div>
+                </div>
+            `;
+            cardsContainer.innerHTML += card;
+        }
+    }
+}
+

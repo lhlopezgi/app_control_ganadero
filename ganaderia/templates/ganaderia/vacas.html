@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %} 
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Vacas</h2>
+    <div class="row">
+        {% for vaca in vacas %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                {% if vaca.foto %}
+                <img src="{{ vaca.foto.url }}" class="card-img-top" alt="Foto de la vaca">
+                {% else %}
+                <img src="{% static 'img/imagen1vaca.jpg' %}" class="card-img-top" alt="Sin foto">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">Raza: {{ vaca.raza }}</h5>
+                    <p class="card-text">Edad: {{ vaca.calcular_edad }} años</p>
+                    <p class="card-text">Color: {{ vaca.color }}</p>
+                    <p class="card-text">Observaciones: {{ vaca.observaciones|default:"Ninguna" }}</p>
+                    <p class="card-text">Productiva: {{ vaca.es_productiva|yesno:"Sí,No" }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay vacas registradas.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    <nav aria-label="Paginación de vacas">
+        <ul class="pagination justify-content-center">
+            {% if vacas.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; Primera</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ vacas.previous_page_number }}">Anterior</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item active"><span class="page-link">{{ vacas.number }}</span></li>
+
+            {% if vacas.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ vacas.next_page_number }}">Siguiente</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ vacas.paginator.num_pages }}">Última &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+
+
+
