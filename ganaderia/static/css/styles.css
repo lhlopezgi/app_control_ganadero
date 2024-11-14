@@ -408,77 +408,61 @@ form button:hover {
 
 
 
-.cards-container {
+/* Asegurarse de que el contenedor de tarjetas ocupa el 100% del ancho disponible */
+#cards-container.cards-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-wrap: wrap;  /* Permite que las tarjetas se acomoden en varias filas */
+    justify-content: center;  /* Centra las tarjetas dentro del contenedor */
+    gap: 20px;  /* Espaciado entre las tarjetas */
+    margin: 20px auto;  /* Margen automático para centrar el contenedor en la pantalla */
+    padding: 0 10px;  /* Añadir un poco de relleno lateral para evitar que las tarjetas se peguen a los bordes */
+    width: 100%;  /* Asegura que el contenedor ocupe todo el ancho disponible */
+    box-sizing: border-box;  /* Asegura que el padding se tenga en cuenta en el ancho total */
 }
 
+/* Estilos para las tarjetas */
 .card {
-    width: 250px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+    width: 220px;  /* Tamaño fijo para las tarjetas */
+    border: 1px solid #ccc;  /* Borde ligero */
+    border-radius: 8px;  /* Esquinas redondeadas */
+    overflow: hidden;  /* Para evitar que las imágenes sobresalgan */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+    background-color: #fff;  /* Fondo blanco para las tarjetas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Centra el contenido dentro de la tarjeta */
+    padding: 10px;
+    transition: transform 0.3s ease-in-out;  /* Efecto de hover */
+    margin: 0 auto;  /* Centra las tarjetas dentro del contenedor */
+}
+
+/* Estilos para las imágenes dentro de las tarjetas */
+.card img {
+    width: 100%;  /* La imagen ocupará todo el ancho de la tarjeta */
+    height: 150px;  /* Ajustar la altura de la imagen */
+    object-fit: cover;  /* Mantiene la proporción de la imagen sin deformarla */
+    border-bottom: 1px solid #ccc;  /* Límite visual entre la imagen y el contenido */
+}
+
+/* Contenido de las tarjetas */
+.card-content {
+    padding: 10px 0;
+    text-align: center;
 }
 
 .card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);  /* Efecto de elevación al hacer hover */
 }
 
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+.card h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
 }
 
-.card .card-content {
-    padding: 10px;
-    background-color: #f9f9f9;
+.card p {
+    font-size: 0.9rem;
+    color: #555;
 }
-
-.card .card-content h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.card .card-content p {
-    font-size: 14px;
-    margin: 5px 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

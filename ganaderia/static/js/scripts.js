@@ -9,6 +9,7 @@ function hideAllForms() {
 
     // Limpiar las tarjetas de vacas o terneros (cuando se hace clic en otros enlaces)
     document.getElementById('cards-container').innerHTML = ''; 
+    document.getElementById('cards-container').style.display = "none";  // Asegúrate de ocultar el contenedor de tarjetas
 }
 
 
@@ -109,27 +110,23 @@ function handleFormSubmit(formId, url, event) {
         method: 'POST',
         body: formData,
         headers: {
-            'X-CSRFToken': getCookie('csrftoken') // Obtener el token CSRF desde las cookies
+            'X-CSRFToken': getCookie('csrftoken')
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        const messageContainer = document.getElementById('message-container');
-        messageContainer.innerHTML = ''; // Limpiar mensajes anteriores
-        
-        // Mostrar mensaje de éxito o errores
-        if (data.message) {
-            showToast(data.message, 'success');
-        }
-        if (data.errors) {
-            data.errors.forEach(error => {
-                showToast(error, 'error');
-            });
-        }
+        // Procesar datos...
     })
     .catch(error => {
         console.error('Error:', error);
+        showToast('Hubo un error al procesar la solicitud', 'error');
     });
+
 }
 
 
@@ -236,16 +233,37 @@ const vacas = [
       raza: "Holstein",
       produccionPromedio: "25 L/día",
       color: "Blanco y negro",
-      imagen: "control_ganadero/static/img/imagen1vaca.jpg"
+      imagen: "/static/img/imagen1vaca.jpg"
+
+
     },
     {
       nombre: "Vaca 2",
       edad: "4 años",
-      raza: "Jersey",
+      raza: "Gyr",
       produccionPromedio: "18 L/día",
       color: "Marrón claro",
-      imagen: "control_ganadero/static/img/imagen2vaca.jpg"
+      imagen: "/static/img/imagen2vaca.jpg"
+
     },
+    {
+        nombre: "Vaca 3",
+        edad: "2 años",
+        raza: "Normando",
+        produccionPromedio: "15 L/día",
+        color: "Blanco y Cafe",
+        imagen: "/static/img/imagen3vaca.jpg"
+
+      },
+      {
+        nombre: "Vaca 4",
+        edad: "3 años",
+        raza: "Jersey",
+        produccionPromedio: "10 L/día",
+        color: "Marrón Oscuro",
+        imagen: "/static/img/imagen4vaca.jpg"
+
+      },
     // Añadir más vacas aquí...
   ];
   
@@ -256,7 +274,8 @@ const vacas = [
       raza: "Charolais",
       produccionPromedio: "N/A",
       color: "Blanco",
-      imagen: "control_ganadero/static/img/imagen3vaca.jpg"
+      imagen: "/static/img/imagen5vaca.jpg"
+
     },
     {
       nombre: "Ternero 2",
@@ -264,18 +283,37 @@ const vacas = [
       raza: "Limousin",
       produccionPromedio: "N/A",
       color: "Marrón",
-      imagen: "control_ganadero/static/img/imagen4vaca.jpg"
+      imagen: "/static/img/imagen6vaca.jpg"
+
     },
+    {
+        nombre: "Ternero 3",
+        edad: "3 meses",
+        raza: "Normando",
+        produccionPromedio: "N/A",
+        color: "Blanco",
+        imagen: "/static/img/imagen7vaca.jpg"
+
+      },
+      {
+        nombre: "Ternero 4",
+        edad: "4 meses",
+        raza: "Gyr",
+        produccionPromedio: "N/A",
+        color: "Marrón Claro",
+        imagen: "/static/img/imagen8vaca.jpg"
+
+      },
     // Añadir más terneros aquí...
   ];
   
-  // Función para generar las tarjetas de vacas o terneros
-function generarTarjetas(animales) {
+ 
+
+  function generarTarjetasGenericas(animales) {
     const container = document.getElementById('cards-container');
     container.innerHTML = ''; // Limpiar las tarjetas previas
 
-    // Mostrar solo las primeras 4 tarjetas
-    animales.slice(0, 4).forEach(animal => { 
+    animales.slice(0, 4).forEach(animal => {
         const card = document.createElement('div');
         card.classList.add('card');
         
@@ -294,50 +332,24 @@ function generarTarjetas(animales) {
     });
 }
 
+
+
 function showInfo(type) {
     // Primero ocultar cualquier formulario activo
     hideAllForms();
 
-    // Si el tipo es "vacas", mostrar las tarjetas de vacas
+    // Mostrar el contenedor de tarjetas
+    const cardsContainer = document.getElementById('cards-container');
+    cardsContainer.style.display = 'block'; // Asegúrate de que el contenedor esté visible
+
     if (type === "vacas") {
-        const cardsContainer = document.getElementById('cards-container');
-        cardsContainer.innerHTML = ''; // Limpiar las tarjetas previas
-
-        // Mostrar las tarjetas de vacas
-        for (let i = 0; i < 4; i++) {
-            const card = `
-                <div class="card">
-                    <img src="path/to/vaca${i+1}.jpg" alt="Vaca ${i+1}" class="card-image">
-                    <div class="card-details">
-                        <p>Edad: 5 años</p>
-                        <p>Raza: Holstein</p>
-                        <p>Producción Promedio: 20 L/día</p>
-                        <p>Color: Blanco y Negro</p>
-                    </div>
-                </div>
-            `;
-            cardsContainer.innerHTML += card;
-        }
-
+        generarTarjetasGenericas(vacas);
     } else if (type === "terneros") {
-        const cardsContainer = document.getElementById('cards-container');
-        cardsContainer.innerHTML = ''; // Limpiar las tarjetas previas
-
-        // Mostrar las tarjetas de terneros
-        for (let i = 0; i < 4; i++) {
-            const card = `
-                <div class="card">
-                    <img src="path/to/ternero${i+1}.jpg" alt="Ternero ${i+1}" class="card-image">
-                    <div class="card-details">
-                        <p>Edad: 6 meses</p>
-                        <p>Raza: Jersey</p>
-                        <p>Producción Promedio: 12 L/día</p>
-                        <p>Color: Marrón Claro</p>
-                    </div>
-                </div>
-            `;
-            cardsContainer.innerHTML += card;
-        }
+        generarTarjetasGenericas(terneros);
     }
 }
+
+
+
+
 
