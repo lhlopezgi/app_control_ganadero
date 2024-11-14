@@ -232,8 +232,8 @@ const vacas = [
       edad: "5 años",
       raza: "Holstein",
       produccionPromedio: "25 L/día",
-      color: "Blanco y negro",
-      imagen: "/static/img/imagen1vaca.jpg"
+      color: "Blanco y Marron-Claro",
+      imagen: "/static/img/imagen7vaca.jpg"
 
 
     },
@@ -242,26 +242,44 @@ const vacas = [
       edad: "4 años",
       raza: "Gyr",
       produccionPromedio: "18 L/día",
-      color: "Marrón claro",
+      color: "Marrón-Oscuro",
       imagen: "/static/img/imagen2vaca.jpg"
 
     },
     {
         nombre: "Vaca 3",
         edad: "2 años",
-        raza: "Normando",
+        raza: "Holstein",
         produccionPromedio: "15 L/día",
-        color: "Blanco y Cafe",
+        color: "Blanco y Negro",
         imagen: "/static/img/imagen3vaca.jpg"
 
       },
       {
         nombre: "Vaca 4",
         edad: "3 años",
+        raza: "Normando",
+        produccionPromedio: "10 L/día",
+        color: "Marrón-Oscuro",
+        imagen: "/static/img/imagen4vaca.jpg"
+
+      },
+      {
+        nombre: "Vaca 5",
+        edad: "2 años",
+        raza: "Gyr",
+        produccionPromedio: "15 L/día",
+        color: "Blanco y Cafe",
+        imagen: "/static/img/imagen9vaca.jpg"
+
+      },
+      {
+        nombre: "Vaca 6",
+        edad: "3 años",
         raza: "Jersey",
         produccionPromedio: "10 L/día",
-        color: "Marrón Oscuro",
-        imagen: "/static/img/imagen4vaca.jpg"
+        color: "Marrón-Claro",
+        imagen: "/static/img/imagen11vaca.jpg"
 
       },
     // Añadir más vacas aquí...
@@ -273,8 +291,8 @@ const vacas = [
       edad: "6 meses",
       raza: "Charolais",
       produccionPromedio: "N/A",
-      color: "Blanco",
-      imagen: "/static/img/imagen5vaca.jpg"
+      color: "Blanco-Cafe",
+      imagen: "/static/img/imagen2ternero.jpg"
 
     },
     {
@@ -283,7 +301,7 @@ const vacas = [
       raza: "Limousin",
       produccionPromedio: "N/A",
       color: "Marrón",
-      imagen: "/static/img/imagen6vaca.jpg"
+      imagen: "/static/img/imagen8ternero.jpg"
 
     },
     {
@@ -291,8 +309,8 @@ const vacas = [
         edad: "3 meses",
         raza: "Normando",
         produccionPromedio: "N/A",
-        color: "Blanco",
-        imagen: "/static/img/imagen7vaca.jpg"
+        color: "Marron-Claro",
+        imagen: "/static/img/imagen3ternero.jpg"
 
       },
       {
@@ -300,8 +318,26 @@ const vacas = [
         edad: "4 meses",
         raza: "Gyr",
         produccionPromedio: "N/A",
+        color: "Blanco y Negro",
+        imagen: "/static/img/imagen9ternero.jpg"
+
+      },
+      {
+        nombre: "Ternero 5",
+        edad: "3 meses",
+        raza: "Normando",
+        produccionPromedio: "N/A",
+        color: "Marron-Claro",
+        imagen: "/static/img/imagen5ternero.jpg"
+
+      },
+      {
+        nombre: "Ternero 6",
+        edad: "4 meses",
+        raza: "Gyr",
+        produccionPromedio: "N/A",
         color: "Marrón Claro",
-        imagen: "/static/img/imagen8vaca.jpg"
+        imagen: "/static/img/imagen4ternero.jpg"
 
       },
     // Añadir más terneros aquí...
@@ -313,7 +349,7 @@ const vacas = [
     const container = document.getElementById('cards-container');
     container.innerHTML = ''; // Limpiar las tarjetas previas
 
-    animales.slice(0, 4).forEach(animal => {
+    animales.slice(0, 6).forEach(animal => {
         const card = document.createElement('div');
         card.classList.add('card');
         
@@ -332,15 +368,13 @@ const vacas = [
     });
 }
 
-
-
 function showInfo(type) {
     // Primero ocultar cualquier formulario activo
     hideAllForms();
 
     // Mostrar el contenedor de tarjetas
     const cardsContainer = document.getElementById('cards-container');
-    cardsContainer.style.display = 'block'; // Asegúrate de que el contenedor esté visible
+    cardsContainer.style.display = 'grid'; // Asegúrate de que el contenedor esté visible como grid
 
     if (type === "vacas") {
         generarTarjetasGenericas(vacas);
@@ -348,8 +382,3 @@ function showInfo(type) {
         generarTarjetasGenericas(terneros);
     }
 }
-
-
-
-
-

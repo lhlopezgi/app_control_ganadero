@@ -207,7 +207,7 @@ def produccion_leche_create(request):
 @login_required
 @permission_required('ganaderia.add_pesovaca', raise_exception=True)
 def peso_vaca_create(request):
-    dashboard_data = obtener_datos_dashboard() # type: ignore
+    
     if request.method == "POST":
         form = PesoVacaForm(request.POST)
         if form.is_valid():
